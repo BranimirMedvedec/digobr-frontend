@@ -55,6 +55,11 @@ export default {
 					blueish: "hsla(188, 90%, 51%, 1)", // Custom color for the ending point
 				},
 			},
+			fontFamily: {
+				gochi: ["Gochi Hand", "cursive"], // Add Gochi Hand font
+				alumni: ["Alumni Sans", "sans-serif"], // Add Alumni Sans font
+				hammersmith: ["Hammersmith One", "sans-serif"], // Add Hammersmith One font
+			},
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
