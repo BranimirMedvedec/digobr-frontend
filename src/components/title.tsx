@@ -6,7 +6,7 @@ type TitleProps = {
 
 export default function Title({
 	title = "E-Motion",
-	smallTitle = "e-motion",
+	smallTitle = "e-Motion",
 	showSmallTitle = true,
 }: TitleProps) {
 	return (
@@ -15,7 +15,7 @@ export default function Title({
 				{title}
 			</h1>
 			{showSmallTitle && smallTitle && (
-				<h2 className="absolute bottom-4 left-48 text-4xl text-pink-500 font-gochi font-semibold">
+				<h2 className="absolute bottom-4 left-48 text-4xl font-gochi font-medium text-[#E127E7]">
 					{smallTitle}
 				</h2>
 			)}
