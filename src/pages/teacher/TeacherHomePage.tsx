@@ -9,7 +9,10 @@ export default function TeacherHome() {
 	return (
 		<div>
 			<div className="mb-4">
-				<Title showSmallTitle={true} />
+				<Title
+					showSmallTitle={true}
+					showFrog={false}
+				/>
 			</div>
 
 			<div className="grid grid-cols-2 grid-rows-4 gap-6 mx-6">
