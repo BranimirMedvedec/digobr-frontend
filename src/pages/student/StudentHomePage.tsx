@@ -6,6 +6,8 @@ export default function StudentHome() {
 			<StudentTeacherHomePage
 				teacher={false}
 				username="Student"
+				showSmallTitle={true}
+				showFrog={false}
 			/>
 		</div>
 	)

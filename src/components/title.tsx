@@ -27,7 +27,7 @@ export default function Title({
 				{/* Frog Image */}
 				{showFrog && (
 					<img
-						src="/title-frog.png"
+						src="/frog.png"
 						alt="Title Frog"
 						className="absolute top-[0%] left-[23%] transform -translate-x-1/2 w-28 h-28"
 					/>
