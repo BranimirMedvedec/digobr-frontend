@@ -11,13 +11,13 @@ export default function JoinCompetition() {
 	}
 
 	return (
-		<div className="relative">
+		<div className="relative min-h-screen w-screen flex flex-col">
 			<Title
 				showSmallTitle={true}
 				showFrog={false}
 			/>
 
-			<div className="text-center w-1/2 mx-auto mt-36">
+			<div className="flex-grow flex flex-col items-center justify-center">
 				<h2 className="font-alumni text-white text-3xl font-semibold uppercase text-left">
 					Upiši kod tima
 				</h2>
@@ -42,6 +42,10 @@ export default function JoinCompetition() {
 					/>
 				</div>
 			</div>
+
+			<Button className="absolute bottom-0 right-0 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg">
+				Učitelj
+			</Button>
 		</div>
 	)
 }
