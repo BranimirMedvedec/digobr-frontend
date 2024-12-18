@@ -60,6 +60,9 @@ export default {
 				alumni: ["Alumni Sans", "sans-serif"], // Add Alumni Sans font
 				hammersmith: ["Hammersmith One", "sans-serif"], // Add Hammersmith One font
 			},
+			transitionDuration: {
+				'2000': '2000ms',
+			}
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
