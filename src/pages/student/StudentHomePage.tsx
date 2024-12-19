@@ -1,7 +1,14 @@
+import StudentTeacherHomePage from "@/components/home-page"
+
 export default function StudentHome() {
 	return (
 		<div>
-			<h1>Student Home Page</h1>
+			<StudentTeacherHomePage
+				teacher={false}
+				username="Student"
+				showSmallTitle={true}
+				showFrog={false}
+			/>
 		</div>
 	)
 }

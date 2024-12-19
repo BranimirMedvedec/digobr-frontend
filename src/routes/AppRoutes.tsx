@@ -4,6 +4,9 @@ import NotFound from "@/pages/NotFoundPage"
 import TeacherHome from "@/pages/teacher/TeacherHomePage"
 import StudentHome from "@/pages/student/StudentHomePage"
 import Layout from "@/layouts/Layout"
+import CreateCompetition from "@/pages/teacher/CreateCompetitionPage"
+import JoinCompetition from "@/pages/student/JoinCompetitionPage"
+import Competition from "@/pages/student/Competition.tsx";
 
 export default function AppRoutes() {
 	return (
@@ -19,8 +22,20 @@ export default function AppRoutes() {
 						element={<TeacherHome />}
 					/>
 					<Route
+						path="/teacher/create-competition"
+						element={<CreateCompetition />}
+					/>
+					<Route
 						path="/student"
 						element={<StudentHome />}
+					/>
+					<Route
+						path="/student/join-competition"
+						element={<JoinCompetition />}
+					/>
+					<Route
+						path="/student/competition"
+						element={<Competition />}
 					/>
 					<Route
 						path="*"
