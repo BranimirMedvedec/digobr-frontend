@@ -1,5 +1,5 @@
 type FrogProps = {
-  positionCSS: string;
+  positionCSS?: string;
 };
 
 export default function Frog({ positionCSS }: FrogProps) {
@@ -17,8 +17,8 @@ export default function Frog({ positionCSS }: FrogProps) {
     <img
       id="frog"
       src="/frog_2.png"
-      alt="Title Frog"
-      className={`absolute ${positionCSS} h-20 transform transition-transform duration-500`}
+      alt="Frog"
+      className={`${positionCSS} h-20 transform transition-transform duration-500`}
       onClick={() => makeFrogJump()}
     />
   );

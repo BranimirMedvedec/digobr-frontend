@@ -4,7 +4,7 @@ type CelebrateScoreProps = {
 
 export default function CelebrateScore({ score }: CelebrateScoreProps) {
   return (
-    <div className="absolute top-32 lg:top-64 w-full h-40 my-10">
+    <div className="absolute top-32 lg:top-52 w-full h-40 my-10">
       <div className="flex flex-col justify-center items-center h-40 w-full">
         <p
           className={`relative border-[7px] border-[#FFFB00] p-4 rounded-xl text-4xl font-bold uppercase text-black font-alumni

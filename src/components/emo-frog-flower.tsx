@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Frog from "@/components/frog.tsx";
 
 type EmoFrogFlowerProps = {
   animateFrogs: boolean;
@@ -32,21 +33,17 @@ export default function EmoFrogFlower({ animateFrogs }: EmoFrogFlowerProps) {
       >
         EMO
       </h1>
+      <Frog positionCSS="absolute bottom-0" />
       <img
         src="/frog_2.png"
-        alt="Title Frog"
-        className="absolute bottom-0 h-20"
-      />
-      <img
-        src="/frog_2.png"
-        alt="Title Frog"
+        alt="Frog"
         className={`absolute bottom-0 left-28 h-20 transition-opacity duration-2000 ${
           animateFrogs ? "opacity-100" : "opacity-0"
         }`}
       />
       <img
         src="/flower.png"
-        alt="Title Flower"
+        alt="Flower"
         className="absolute -bottom-4 left-24 transform -translate-x-1/2 w-16"
       />
     </div>
