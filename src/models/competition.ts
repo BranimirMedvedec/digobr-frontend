@@ -1,4 +1,3 @@
-import { Group } from "./group"
 import { Status } from "./status-enum"
 
 export type Competition = {
@@ -7,6 +6,4 @@ export type Competition = {
 	startDateTime: string
 	endDateTime: string
 	status: Status
-	group: Group
-	groups: Group[]
 }
