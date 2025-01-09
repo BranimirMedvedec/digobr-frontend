@@ -12,14 +12,16 @@ const baseUrl = "http://localhost:3000/api"
 export const login = async (
 	username: string,
 	role: "teacher" | "student"
-): Promise<void> => {
+): Promise<boolean> => {
 	try {
 		const url = `${baseUrl}/users?username=${username}&role=${role}`
 		const response = await fetch(url)
 
 		if (!response.ok) {
-			throw new Error(`Failed to login: ${response.statusText}`)
+			return false
 		}
+
+		return true
 	} catch (error) {
 		console.error("Login Error:", error)
 		throw error
@@ -27,7 +29,7 @@ export const login = async (
 }
 
 // teacher creates a competition
-type createCompetitionType = Group[]
+type createCompetitionType = { id: number; groups: Group[] }
 export const createCompetition = async (
 	username: string,
 	competitionDetails: CreateCompetition
