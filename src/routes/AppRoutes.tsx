@@ -1,14 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Outlet,
+} from "react-router-dom"
 import Home from "@/pages/HomePage"
 import NotFound from "@/pages/NotFoundPage"
 import TeacherHome from "@/pages/teacher/TeacherHomePage"
-import StudentHome from "@/pages/student/StudentHomePage"
 import Layout from "@/layouts/Layout"
 import CreateCompetition from "@/pages/teacher/CreateCompetitionPage"
-import JoinCompetition from "@/pages/student/JoinCompetitionPage"
 import Competition from "@/pages/student/game/Competition.tsx"
 import Explain from "@/pages/student/game/Explain.tsx"
 import Guess from "@/pages/student/game/Guess.tsx"
+import NotAuthorized from "@/pages/NotAuthorizedPage"
+import AuthGuard from "@/components/auth/auth-guard"
+import PublicGuard from "@/components/auth/public-guard"
+import StudentHome from "@/pages/student/StudentHomePage"
 
 export default function AppRoutes() {
 	return (
@@ -19,33 +26,52 @@ export default function AppRoutes() {
 						path="/"
 						element={<Home />}
 					/>
+
 					<Route
 						path="/teacher"
-						element={<TeacherHome />}
-					/>
-					<Route
-						path="/teacher/create-competition"
-						element={<CreateCompetition />}
-					/>
+						element={
+							<AuthGuard allowedRoles={["teacher"]}>
+								<Outlet />
+							</AuthGuard>
+						}>
+						<Route
+							index
+							element={<TeacherHome />}
+						/>
+						<Route
+							path="create-competition"
+							element={<CreateCompetition />}
+						/>
+					</Route>
+
 					<Route
 						path="/student"
-						element={<StudentHome />}
-					/>
+						element={
+							<AuthGuard allowedRoles={["student"]}>
+								<Outlet />
+							</AuthGuard>
+						}>
+						<Route
+							index
+							element={<StudentHome />}
+						/>
+						<Route
+							path="competition"
+							element={<Competition gameLevel={5} />}
+						/>
+						<Route
+							path="explain"
+							element={<Explain />}
+						/>
+						<Route
+							path="guess"
+							element={<Guess />}
+						/>
+					</Route>
+
 					<Route
-						path="/student/join-competition"
-						element={<JoinCompetition />}
-					/>
-					<Route
-						path="/student/competition"
-						element={<Competition gameLevel={5} />}
-					/>
-					<Route
-						path="/student/explain"
-						element={<Explain />}
-					/>
-					<Route
-						path="/student/guess"
-						element={<Guess />}
+						path="/not-authorized"
+						element={<NotAuthorized />}
 					/>
 					<Route
 						path="*"
