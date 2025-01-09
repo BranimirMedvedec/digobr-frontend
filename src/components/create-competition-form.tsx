@@ -19,8 +19,13 @@ export default function CreateCompetitionForm({
 	async function handleCreateCompetition(e: FormEvent) {
 		e.preventDefault()
 		try {
-			if (studentsNo == 0 || !name) {
-				alert("Broj djece je obavezan")
+			if (studentsNo <= 2) {
+				alert("Broj djece mora biti veći od 2")
+				return
+			}
+
+			if (name.length === 0) {
+				alert("Morate unijeti naziv natjecanja")
 				return
 			}
 
