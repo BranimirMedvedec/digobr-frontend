@@ -10,13 +10,14 @@ import {
 	SelectValue,
 } from "./ui/select"
 import { useNavigate } from "react-router-dom"
+import { login } from "@/lib/functions"
 
 export default function LoginForm() {
 	const [username, setUsername] = useState("")
 	const [role, setRole] = useState<"teacher" | "student" | "">("")
 	const navigate = useNavigate()
 
-	const handleSubmit = (e: FormEvent) => {
+	async function handleSubmit(e: FormEvent) {
 		e.preventDefault()
 		if (username.length <= 4) {
 			alert("Korisničko ime mora imati više od 4 karaktera")
@@ -29,6 +30,11 @@ export default function LoginForm() {
 		}
 
 		try {
+			const successLogin = await login(username, role)
+			if (!successLogin) {
+				alert("Neuspješna prijava")
+				return
+			}
 			saveUserInfo({ username, role })
 			navigate(role === "teacher" ? "/teacher" : "/student", {
 				replace: true,

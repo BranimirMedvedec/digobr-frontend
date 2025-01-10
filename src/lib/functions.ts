@@ -15,7 +15,9 @@ export const login = async (
 ): Promise<boolean> => {
 	try {
 		const url = `${baseUrl}/users?username=${username}&role=${role}`
-		const response = await fetch(url)
+		const response = await fetch(url, {
+			method: "POST",
+		})
 
 		if (!response.ok) {
 			return false
