@@ -1,8 +1,9 @@
 import Title from "@/components/title"
+import { getUsername } from "@/lib/auth-functions"
 import { Link } from "react-router-dom"
 
 export default function TeacherHome() {
-	const username = "Marina"
+	const username = getUsername()
 	const text = `Bok ${username},
     
     e-Motion je platforma za e-učenje emocija namijenjena djeci za lagano učenje kroz igru i natjecanja u timovima.`

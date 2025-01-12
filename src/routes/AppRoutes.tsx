@@ -16,6 +16,7 @@ import NotAuthorized from "@/pages/NotAuthorizedPage"
 import AuthGuard from "@/components/auth/auth-guard"
 import PublicGuard from "@/components/auth/public-guard"
 import StudentHome from "@/pages/student/StudentHomePage"
+import Competitions from "@/pages/teacher/CompetitionsPage"
 
 export default function AppRoutes() {
 	return (
@@ -41,6 +42,10 @@ export default function AppRoutes() {
 						<Route
 							path="create-competition"
 							element={<CreateCompetition />}
+						/>
+						<Route
+							path="competitions"
+							element={<Competitions />}
 						/>
 					</Route>
 

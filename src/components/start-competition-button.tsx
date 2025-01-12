@@ -42,13 +42,11 @@ export default function StartCompetitionButton({
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger>
-				<Button
-					className="h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg"
-					onClick={handleStartCompetition}>
+				<Button className="h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg">
 					Pokreni
 				</Button>
 			</AlertDialogTrigger>
-			<AlertDialogContent>
+			<AlertDialogContent className="bg-white text-black">
 				<AlertDialogHeader>
 					<AlertDialogTitle>
 						Jeste li sigurni da želite pokrenuti natjecanje?
@@ -60,7 +58,9 @@ export default function StartCompetitionButton({
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Odustani</AlertDialogCancel>
-					<AlertDialogAction>Nastavi</AlertDialogAction>
+					<AlertDialogAction onClick={handleStartCompetition}>
+						Nastavi
+					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
