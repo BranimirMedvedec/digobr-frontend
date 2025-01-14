@@ -1,5 +1,5 @@
 export type Group = {
 	code: string
-	colorRGB: string
+	colorRgb: string
 	score: number
 }

@@ -1,18 +1,21 @@
 import { getUsername } from "@/lib/auth-functions"
-import { getCompetition } from "@/lib/functions"
+import { getCompetition, getGroupDetails } from "@/lib/functions"
 import { Group } from "@/models/group"
 import { useEffect, useState } from "react"
-import { Button } from "./ui/button"
+import { TreeView, TreeDataItem } from "./ui/tree-view"
+import { User } from "@/models/user"
 
 type CompetitionDetailsType = {
 	competitionId: number
 }
 
+type GroupWithUsers = Group & { users: User[] }
+
 export default function CompetitionDetails({
 	competitionId,
 }: CompetitionDetailsType) {
 	const username = getUsername()
-	const [groups, setGroups] = useState<Group[]>([])
+	const [treeData, setTreeData] = useState<TreeDataItem[]>([])
 
 	async function getCompetitionDetails() {
 		try {
@@ -23,56 +26,45 @@ export default function CompetitionDetails({
 				return
 			}
 
-			const data: Group[] = await getCompetition(username, competitionId)
-			setGroups(data)
+			const groups: Group[] = await getCompetition(
+				username,
+				competitionId
+			)
+
+			const groupsWithUsers: GroupWithUsers[] = await Promise.all(
+				groups.map(async (group) => {
+					const users: User[] = await getGroupDetails(group.code)
+					return { ...group, users }
+				})
+			)
+
+			setTreeData(convertToTreeData(groupsWithUsers))
 		} catch (error) {
 			console.error("Error getting competition details:", error)
 		}
+	}
+
+	function convertToTreeData(
+		groupsWithUsers: GroupWithUsers[]
+	): TreeDataItem[] {
+		return groupsWithUsers.map((group) => ({
+			id: group.code,
+			name: `${group.code} - Score: ${group.score}`,
+			children: group.users.map((user) => ({
+				id: user.id.toString(),
+				name: `${user.username} - Score: ${user.score}`,
+				children: [],
+			})),
+		}))
 	}
 
 	useEffect(() => {
 		getCompetitionDetails()
 	}, [])
 
-	const handleDetailedView = () => {
-		console.log("Detailed view clicked")
-	}
-
-	// mock data
-	useEffect(() => {
-		setGroups([
-			{
-				code: "A",
-				colorRGB: "rgb(139, 154, 249)",
-				score: 100,
-			},
-			{
-				code: "B",
-				colorRGB: "rgb(139, 154, 249)",
-				score: 90,
-			},
-			{
-				code: "C",
-				colorRGB: "rgb(139, 154, 249)",
-				score: 80,
-			},
-		])
-	}, [])
-
 	return (
-		<div>
-			{groups.map((group) => (
-				<div
-					key={group.code}
-					className="flex items-center space-x-2">
-					<span className="w-3 h-3 bg-[#8b9af9]"></span>
-					<span>{group.code}</span>
-					<span> - </span>
-					<span>{group.score}</span>
-				</div>
-			))}
-
-			<Button onClick={handleDetailedView}>Detaljno</Button>
-		</div>
+		<>
+			<TreeView data={treeData} />
+		</>
 	)
 }

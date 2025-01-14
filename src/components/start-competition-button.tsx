@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "./ui/button"
 import { startCompetition } from "@/lib/functions"
+import { useNavigate } from "react-router-dom"
 
 type StartCompetitionButtonProps = {
 	username: string
@@ -21,6 +22,7 @@ export default function StartCompetitionButton({
 	username,
 	id,
 }: StartCompetitionButtonProps) {
+	const navigate = useNavigate()
 	async function handleStartCompetition() {
 		try {
 			if (!username) {
@@ -34,6 +36,7 @@ export default function StartCompetitionButton({
 			}
 
 			await startCompetition(username, id)
+			navigate(`/teacher/competition/${id}`)
 		} catch (error) {
 			console.log("Error starting competition: ", error)
 		}
@@ -41,12 +44,12 @@ export default function StartCompetitionButton({
 
 	return (
 		<AlertDialog>
-			<AlertDialogTrigger>
+			<AlertDialogTrigger asChild>
 				<Button className="h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg">
 					Pokreni
 				</Button>
 			</AlertDialogTrigger>
-			<AlertDialogContent className="bg-white text-black">
+			<AlertDialogContent className="bg-gradient-to-b to-[hsla(113,96%,81%,1)] from-[hsla(188,90%,51%,1)] text-black rounded-xl w-3/4">
 				<AlertDialogHeader>
 					<AlertDialogTitle>
 						Jeste li sigurni da želite pokrenuti natjecanje?
@@ -57,8 +60,12 @@ export default function StartCompetitionButton({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel>Odustani</AlertDialogCancel>
-					<AlertDialogAction onClick={handleStartCompetition}>
+					<AlertDialogCancel className="bg-white text-black font-hammersmith font-medium text-lg rounded-xl border-2 border-white p-5 shadow-lg">
+						Odustani
+					</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={handleStartCompetition}
+						className="bg-fuchsia-400 text-black font-hammersmith font-medium text-lg rounded-xl border-2 border-white p-5 shadow-lg">
 						Nastavi
 					</AlertDialogAction>
 				</AlertDialogFooter>

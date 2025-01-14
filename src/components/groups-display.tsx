@@ -27,7 +27,7 @@ export default function GroupsDisplay({
 							<div
 								className="w-12 h-12 border-4 border-white rounded-xl"
 								style={{
-									backgroundColor: group.colorRGB,
+									backgroundColor: group.colorRgb,
 								}}></div>
 							<div className="text-black font-alumni text-3xl font-semibold text-start">
 								{group.code}

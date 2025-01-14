@@ -17,11 +17,13 @@ import AuthGuard from "@/components/auth/auth-guard"
 import PublicGuard from "@/components/auth/public-guard"
 import StudentHome from "@/pages/student/StudentHomePage"
 import Competitions from "@/pages/teacher/CompetitionsPage"
+import { Toaster } from "@/components/ui/toaster"
 
 export default function AppRoutes() {
 	return (
 		<Router>
 			<Layout>
+				<Toaster />
 				<Routes>
 					<Route
 						path="/"
