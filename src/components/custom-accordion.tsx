@@ -11,7 +11,6 @@ import CompetitionDetails from "./competition-details"
 import { getUsername } from "@/lib/auth-functions"
 import { getCompetitions } from "@/lib/functions"
 import { Info } from "lucide-react"
-import { Button } from "./ui/button"
 import { useToast } from "@/hooks/use-toast"
 
 export default function CustomAccordion() {
@@ -60,7 +59,7 @@ export default function CustomAccordion() {
 			<Accordion
 				type="single"
 				collapsible
-				className="w-3/4 bg-white rounded-3xl shadow-lg p-4">
+				className="w-full bg-white p-2">
 				{competitions.map((competition) => (
 					<AccordionItem
 						key={competition.id}

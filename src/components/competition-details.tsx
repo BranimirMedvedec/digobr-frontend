@@ -31,9 +31,14 @@ export default function CompetitionDetails({
 				competitionId
 			)
 
+			groups.sort((a, b) => b.score - a.score)
+
 			const groupsWithUsers: GroupWithUsers[] = await Promise.all(
 				groups.map(async (group) => {
 					const users: User[] = await getGroupDetails(group.code)
+
+					users.sort((a, b) => b.score - a.score)
+
 					return { ...group, users }
 				})
 			)
@@ -49,7 +54,16 @@ export default function CompetitionDetails({
 	): TreeDataItem[] {
 		return groupsWithUsers.map((group) => ({
 			id: group.code,
-			name: `${group.code} - Score: ${group.score}`,
+			name: (
+				<div className="flex items-center gap-2 pl-1">
+					<div
+						className="w-3 h-3 rounded-full ring-1 ring-black"
+						style={{
+							backgroundColor: group.colorRgb,
+						}}></div>
+					<span>{`${group.code} - Score: ${group.score}`}</span>
+				</div>
+			),
 			children: group.users.map((user) => ({
 				id: user.id.toString(),
 				name: `${user.username} - Score: ${user.score}`,
@@ -64,7 +78,10 @@ export default function CompetitionDetails({
 
 	return (
 		<>
-			<TreeView data={treeData} />
+			<TreeView
+				data={treeData}
+				// set the group.colorRgb to the color of the group
+			/>
 		</>
 	)
 }
