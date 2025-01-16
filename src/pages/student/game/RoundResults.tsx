@@ -5,15 +5,15 @@ export default function RoundResults() {
     <div className="flex flex-col items-center justify-between py-12 h-full">
       <div className="grid grid-cols-2 grid-rows-4 justify-items-center px-5 gap-4 w-screen md:w-2/3">
         <img
-          id="frog"
+          id="emotion-image"
           src="/temporary_image.png"
-          alt="Frog"
+          alt="Emotion Image"
           className="row-span-2 rounded-2xl md:w-[30vw]"
         />
         <img
-          id="frog"
+          id="emotion-image"
           src="/temporary_image.png"
-          alt="Frog"
+          alt="Emotion Image"
           className="row-span-2 rounded-2xl md:w-[30vw]"
         />
         <p className="col-span-2 text-center text-6xl font-bold uppercase text-gray-400 font-alumni">

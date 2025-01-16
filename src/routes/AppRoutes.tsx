@@ -14,8 +14,8 @@ import Explain from "@/pages/student/game/Explain.tsx"
 import Guess from "@/pages/student/game/Guess.tsx"
 import NotAuthorized from "@/pages/NotAuthorizedPage"
 import AuthGuard from "@/components/auth/auth-guard"
-import PublicGuard from "@/components/auth/public-guard"
 import StudentHome from "@/pages/student/StudentHomePage"
+import CurrentCompetition from "@/pages/teacher/CurrentCompetition.tsx";
 
 export default function AppRoutes() {
 	return (
@@ -41,6 +41,10 @@ export default function AppRoutes() {
 						<Route
 							path="create-competition"
 							element={<CreateCompetition />}
+						/>
+						<Route
+							path="current-competition"
+							element={<CurrentCompetition />}
 						/>
 					</Route>
 
