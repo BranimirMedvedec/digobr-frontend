@@ -17,16 +17,18 @@ export default function GameFrame({
   return (
     <div className="flex flex-col items-start justify-start w-full h-screen bg-white">
       <TeamColor colorHEX="#FFFB00" />
-      <p className="ml-2 text-4xl font-bold uppercase text-slate-200 font-alumni">
-        LEVEL {level}
-      </p>
-      <div className="flex flex-col items-center justify-between h-full w-full">
-        {children}
-        {showCounter && (
-          <div className="flex items-center justify-end w-full p-4">
-            <Counter initialValue={counter} />
+      <div className="w-full h-[90vh] flex flex-col items-center justify-start overflow-hidden">
+          <p className="ml-2 text-4xl test-start font-bold uppercase text-slate-200 font-alumni w-full">
+            LEVEL {level}
+          </p>
+          <div className="relative flex flex-col items-center justify-between h-full w-screen">
+            {children}
+            {showCounter && (
+              <div className="absolute bottom-4 right-4">
+                <Counter initialValue={counter} />
+              </div>
+            )}
           </div>
-        )}
       </div>
     </div>
   );

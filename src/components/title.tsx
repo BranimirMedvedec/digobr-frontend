@@ -23,7 +23,7 @@ export default function Title({
 					</h1>
 					{/* Small Title */}
 					{showSmallTitle && (
-						<h2 className="absolute text-4xl font-gochi font-medium text-[#E127E7] top-[60%] left-[60%] transform -translate-x-1/2">
+						<h2 className="absolute text-nowrap text-4xl font-gochi font-medium text-[#E127E7] top-[60%] left-[60%] transform -translate-x-1/2">
 							{smallTitle}
 						</h2>
 					)}
