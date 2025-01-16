@@ -10,7 +10,7 @@ export default function UserHomeButton() {
 		try {
 			navigate(`/${role}`, { replace: true })
 		} catch (error) {
-			console.log("Error removing user info: ", error)
+			console.log("Error navigating to home page:", error)
 		}
 	}
 

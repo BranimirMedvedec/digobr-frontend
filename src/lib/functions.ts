@@ -130,7 +130,7 @@ export const getCompetitions = async (
 }
 
 // teacher gets specific competition
-type getCompetitionType = Competition
+type getCompetitionType = Group[]
 export const getCompetition = async (
 	username: string,
 	competitionId: number
