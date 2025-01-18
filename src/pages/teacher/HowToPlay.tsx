@@ -3,18 +3,22 @@ import HowToStep from "@/components/how-to-step.tsx";
 
 const data: { actor: string; text: string }[] = [
   { actor: "TEACHER", text: "Učitelj upisuje ime učilice i broj djece." },
-  { actor: "FROG", text: "E-Motion prikazuje kodove i boje timova." },
+  { actor: "FROG", text: "E-Motion učitelju prikazuje kodove i boje timova." },
   {
     actor: "TEACHER",
-    text: "Učitelj dijeli djecu u timove i započinje natjecanje.",
-  },
-  {
-    actor: "FROG",
-    text: "E-Motion učitelju prikazuje ljestvicu igre koju učitelj može prikazati učenicima projektorom.",
+    text: "Učitelj dijeli djecu u timove i daje im kod tima.",
   },
   {
     actor: "STUDENTS",
     text: "Učenici upisuju kod svog tima i ulaze u igru. Svaki tim ima svoju boju.",
+  },
+  {
+    actor: "TEACHER",
+    text: "Učitelj započinje igru nakon što su se sva djeca prijavila u timove.",
+  },
+  {
+    actor: "FROG",
+    text: "E-Motion učitelju prikazuje ljestvicu igre koju učitelj može prikazati učenicima projektorom.",
   },
 ];
 
