@@ -46,19 +46,34 @@ export default function AppRoutes() {
             <Route path="how-to-play" element={<HowToPlay />} />
           </Route>
 
-          <Route
-            path="/student"
-            element={
-              <AuthGuard allowedRoles={["student"]}>
-                <Outlet />
-              </AuthGuard>
-            }
-          >
-            <Route index element={<StudentHome />} />
-            <Route path="competition" element={<Competition gameLevel={1} />} />
-            <Route path="explain" element={<Explain />} />
-            <Route path="guess" element={<Guess />} />
-          </Route>
+					<Route
+						path="/student"
+						element={
+							<AuthGuard allowedRoles={["student"]}>
+								<Outlet />
+							</AuthGuard>
+						}>
+						<Route
+							index
+							element={<StudentHome />}
+						/>
+						<Route
+							path="competition"
+							element={<Outlet />}>
+							<Route
+								index
+								element={<Competition />}
+							/>
+							<Route
+								path="explain"
+								element={<Explain />}
+							/>
+							<Route
+								path="guess"
+								element={<Guess />}
+							/>
+						</Route>
+					</Route>
 
           <Route path="/not-authorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />

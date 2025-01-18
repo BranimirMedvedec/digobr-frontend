@@ -5,6 +5,7 @@ import { Emotion } from "@/models/emotion"
 import { Group } from "@/models/group"
 import { QuestionInfo } from "@/models/question-info"
 import { User } from "@/models/user"
+import { joinRoom, leaveRoom, openSocketConnection } from "./socket-functions"
 
 const baseUrl = "http://localhost:3000/api"
 
@@ -79,6 +80,11 @@ export const joinGroup = async (
 		}
 
 		const data: joinGroupType = await response.json()
+
+		// socket connection
+		openSocketConnection()
+		joinRoom(data.id.toString())
+		joinRoom(data.group.code)
 		return data
 	} catch (error) {
 		console.error("Join Group Error:", error)
@@ -89,7 +95,8 @@ export const joinGroup = async (
 // student leaves a group
 export const leaveGroup = async (
 	username: string,
-	groupCode: string
+	groupCode: string,
+	competitionId: number
 ): Promise<void> => {
 	try {
 		const url = `${baseUrl}/groups/${groupCode}/users?username=${username}`
@@ -100,6 +107,10 @@ export const leaveGroup = async (
 		if (!response.ok) {
 			throw new Error(`Failed to leave group: ${response.statusText}`)
 		}
+
+		// socket connection
+		leaveRoom(competitionId.toString())
+		leaveRoom(groupCode)
 	} catch (error) {
 		console.error("Leave Group Error:", error)
 		throw error
@@ -209,9 +220,7 @@ export const requestEmotion = async (
 ): Promise<requestEmotionType> => {
 	try {
 		const url = `${baseUrl}/request-emotion?code=${groupCode}&username=${username}`
-		const response = await fetch(url, {
-			method: "POST",
-		})
+		const response = await fetch(url)
 
 		if (!response.ok) {
 			throw new Error(`Failed to request emotion: ${response.statusText}`)
@@ -226,11 +235,15 @@ export const requestEmotion = async (
 }
 
 // student gives answer to question
-export const giveAnswer = async (answer: Answer): Promise<void> => {
+export const giveAnswer = async (
+	username: string,
+	groupCode: string,
+	answer: Answer
+): Promise<void> => {
 	try {
-		const url = `${baseUrl}/give-answer`
+		const url = `${baseUrl}/give-answer?code=${groupCode}&username=${username}`
 		const response = await fetch(url, {
-			method: "POST",
+			method: "PUT",
 			body: JSON.stringify(answer),
 			headers: {
 				"Content-Type": "application/json",
@@ -331,4 +344,8 @@ export const getGroupDetails = async (
 		console.error("Get Group Details Error:", error)
 		throw error
 	}
+}
+
+export const formatImage = (data?: string): string => {
+	return `data:jpeg;base64,${data}`
 }
