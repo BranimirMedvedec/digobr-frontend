@@ -1,3 +1,5 @@
+import { removeCompetitionLevel, removeStudentGroup } from "./store-functions"
+
 type User = {
 	username: string
 	role: "teacher" | "student"
@@ -41,6 +43,8 @@ export const removeUserInfo = (): void => {
 	if (userIsLoggedIn()) {
 		localStorage.removeItem("username")
 		localStorage.removeItem("role")
+		removeStudentGroup()
+		removeCompetitionLevel()
 	} else {
 		console.error("User is not logged in")
 		throw new Error("User is not logged in")
