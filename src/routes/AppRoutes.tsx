@@ -18,6 +18,7 @@ import StudentHome from "@/pages/student/StudentHomePage";
 import CurrentCompetition from "@/pages/teacher/CurrentCompetition.tsx";
 import Competitions from "@/pages/teacher/CompetitionsPage";
 import { Toaster } from "@/components/ui/toaster";
+import HowToPlay from "@/pages/teacher/HowToPlay.tsx";
 
 export default function AppRoutes() {
   return (
@@ -42,6 +43,7 @@ export default function AppRoutes() {
               element={<CurrentCompetition />}
             />
             <Route path="competitions" element={<Competitions />} />
+            <Route path="how-to-play" element={<HowToPlay />} />
           </Route>
 
           <Route
