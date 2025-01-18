@@ -23,7 +23,7 @@ export default function CreateCompetition() {
   };
 
   return (
-    <div>
+    <div className="sm:w-1/2 md:w-2/3 lg:w-1/3 sm:m-auto min-h-screen pb-5">
       <Title showSmallTitle={true} showFrog={true} />
 
       <div className="m-6">
