@@ -16,7 +16,7 @@ import NotAuthorized from "@/pages/NotAuthorizedPage"
 import AuthGuard from "@/components/auth/auth-guard"
 import PublicGuard from "@/components/auth/public-guard"
 import StudentHome from "@/pages/student/StudentHomePage"
-import CurrentCompetition from "@/pages/teacher/CurrentCompetition.tsx";
+import CurrentCompetition from "@/pages/teacher/CurrentCompetition.tsx"
 import Competitions from "@/pages/teacher/CompetitionsPage"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -69,16 +69,20 @@ export default function AppRoutes() {
 						/>
 						<Route
 							path="competition"
-							element={<Competition gameLevel={5} />}
-						/>
-						<Route
-							path="explain"
-							element={<Explain />}
-						/>
-						<Route
-							path="guess"
-							element={<Guess />}
-						/>
+							element={<Outlet />}>
+							<Route
+								index
+								element={<Competition />}
+							/>
+							<Route
+								path="explain"
+								element={<Explain />}
+							/>
+							<Route
+								path="guess"
+								element={<Guess />}
+							/>
+						</Route>
 					</Route>
 
 					<Route
