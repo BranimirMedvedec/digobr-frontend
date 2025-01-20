@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type CounterProps = {
+  value: number;
+  setValue: Dispatch<SetStateAction<number>>;
   initialValue: number;
   intervalMs?: number;
 };
 
 export default function Counter({
+  value,
+  setValue,
   initialValue,
   intervalMs = 1000,
 }: CounterProps) {
-  const [value, setValue] = useState(initialValue);
-
   useEffect(() => {
     /* reset the counter when initialValue changes */
     setValue(initialValue);

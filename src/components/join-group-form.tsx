@@ -1,16 +1,20 @@
-import { FormEvent, useState } from "react"
-import { Input } from "./ui/input"
-import { joinGroup } from "@/lib/functions"
-import { getUsername } from "@/lib/auth-functions"
-import { Button } from "./ui/button"
-import { Competition } from "@/models/competition"
-import { Group } from "@/models/group"
-import { useNavigate } from "react-router-dom"
-import { setCompetitionLevel, setStudentGroup } from "@/lib/store-functions"
+import { FormEvent, useState } from "react";
+import { Input } from "./ui/input";
+import { joinGroup } from "@/lib/functions";
+import { getUsername } from "@/lib/auth-functions";
+import { Button } from "./ui/button";
+import { Competition } from "@/models/competition";
+import { Group } from "@/models/group";
+import { useNavigate } from "react-router-dom";
+import {
+  setCompetitionLevel,
+  setStudentColor,
+  setStudentGroup,
+} from "@/lib/store-functions";
 
 export default function JoinGroupForm() {
-	const navigate = useNavigate()
-	const [groupCode, setGroupCode] = useState<string>("")
+  const navigate = useNavigate();
+  const [groupCode, setGroupCode] = useState<string>("");
 
   async function handleJoinCompetition(e: FormEvent) {
     e.preventDefault();
@@ -26,18 +30,19 @@ export default function JoinGroupForm() {
         return;
       }
 
-			const data: Competition & {
-				group: Group
-			} = await joinGroup(username, groupCode)
-			console.log("Joined group " + groupCode + ": ", data)
+      const data: Competition & {
+        group: Group;
+      } = await joinGroup(username, groupCode);
+      console.log("Joined group " + groupCode + ": ", data);
 
-			setStudentGroup(data.group.code)
-			setCompetitionLevel(1)
-			navigate("competition")
-		} catch (error) {
-			console.log("Error joining group: ", error)
-		}
-	}
+      setStudentGroup(data.group.code);
+      setStudentColor(data.group.colorRgb);
+      setCompetitionLevel(1);
+      navigate("competition");
+    } catch (error) {
+      console.log("Error joining group: ", error);
+    }
+  }
 
   return (
     <div className="w-1/2 flex flex-col items-left justify-center mx-2">

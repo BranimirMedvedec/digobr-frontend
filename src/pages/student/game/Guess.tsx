@@ -7,11 +7,11 @@ import MultipleAnswer from "@/pages/student/game/MultipleAnswer.tsx";
 
 export default function Guess() {
   // TODO: set right timers and extract them into separate file
-  const GET_READY_TIMER = 10; /* time for the explainer to learn new emotion */
-  const EXPLAIN_TIMER = 12; /* time for the explainer to imitate new emotion */
-  const ANSWER_TIMER = 9; /* time for the guesser to choose their answer */
-  const CORRECT_ANSWER_TIMER = 8; /* time to look at the answer results */
-  const RESULTS_TIMER = 7; /* show current round results */
+  const GET_READY_TIMER = 2; /* 10 time for the explainer to learn new emotion */
+  const EXPLAIN_TIMER = 2; /* 12 time for the explainer to imitate new emotion */
+  const ANSWER_TIMER = 100; /* 45 time for the guesser to choose their answer */
+  const CORRECT_ANSWER_TIMER = 8; /* 8 time to look at the answer results */
+  const RESULTS_TIMER = 7; /* 7 show current round results */
 
   const [showCounter, setShowCounter] = useState(true);
   const [timer, setTimer] = useState<number>(() => {
@@ -30,20 +30,17 @@ export default function Guess() {
       setTimer(CORRECT_ANSWER_TIMER);
     }, (GET_READY_TIMER + EXPLAIN_TIMER + ANSWER_TIMER) * 1000);
 
-    setTimeout(
-        () => {
-          setShowCounter(false);
-          setTimer(RESULTS_TIMER);
-        },
-        (GET_READY_TIMER + EXPLAIN_TIMER + ANSWER_TIMER + CORRECT_ANSWER_TIMER) * 1000,
-    );
+    setTimeout(() => {
+      setShowCounter(false);
+      setTimer(RESULTS_TIMER);
+    }, (GET_READY_TIMER + EXPLAIN_TIMER + ANSWER_TIMER + CORRECT_ANSWER_TIMER) * 1000);
 
     return initialTimer;
   });
 
   return (
     <GameFrame level={1} counter={timer} showCounter={showCounter}>
-      {(() => {
+      {(counterValue) => {
         switch (timer) {
           case GET_READY_TIMER:
             return (
@@ -63,10 +60,15 @@ export default function Guess() {
             );
 
           case ANSWER_TIMER:
-            return <MultipleAnswer />;
+            return (
+              <MultipleAnswer
+                counterValue={counterValue}
+                answerTime={ANSWER_TIMER}
+              />
+            );
 
           case CORRECT_ANSWER_TIMER:
-            return <WrongAnswer />
+            return <WrongAnswer />;
 
           case RESULTS_TIMER:
             return <RoundResults />;
@@ -74,7 +76,7 @@ export default function Guess() {
           default:
             return <></>;
         }
-      })()}
+      }}
     </GameFrame>
   );
 }

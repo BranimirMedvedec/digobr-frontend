@@ -18,27 +18,21 @@ export default function Explain() {
       setTimer(EXPLAIN_TIMER);
     }, GET_READY_TIMER * 1000);
 
-    setTimeout(
-      () => {
-        setTimer(FRIENDS_GUESSING);
-      },
-      (GET_READY_TIMER + EXPLAIN_TIMER) * 1000,
-    );
+    setTimeout(() => {
+      setTimer(FRIENDS_GUESSING);
+    }, (GET_READY_TIMER + EXPLAIN_TIMER) * 1000);
 
-    setTimeout(
-      () => {
-        setShowCounter(false);
-        setTimer(RESULTS_TIMER);
-      },
-      (GET_READY_TIMER + EXPLAIN_TIMER + FRIENDS_GUESSING) * 1000,
-    );
+    setTimeout(() => {
+      setShowCounter(false);
+      setTimer(RESULTS_TIMER);
+    }, (GET_READY_TIMER + EXPLAIN_TIMER + FRIENDS_GUESSING) * 1000);
 
     return initialTimer;
   });
 
   return (
     <GameFrame level={1} counter={timer} showCounter={showCounter}>
-      {(() => {
+      {() => {
         switch (timer) {
           case GET_READY_TIMER:
             return <EmotionImage text="pripremi se!" />;
@@ -59,7 +53,7 @@ export default function Explain() {
           default:
             return <></>;
         }
-      })()}
+      }}
     </GameFrame>
   );
 }

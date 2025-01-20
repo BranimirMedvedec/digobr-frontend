@@ -1,13 +1,17 @@
+import { getStudentColor } from "@/lib/store-functions.ts";
+
 type TeamColorProps = {
-  colorHEX: string;
   positionCSS?: string;
 };
 
-export default function TeamColor({ colorHEX, positionCSS }: TeamColorProps) {
+export default function TeamColor({ positionCSS }: TeamColorProps) {
+  const color = getStudentColor();
   return (
     <div
       className={`${positionCSS} bg-[#FFFB00] h-[10vh] w-full`}
-      style={{ backgroundColor: colorHEX }}
+      style={{
+        backgroundColor: color ? color : "gray",
+      }}
     ></div>
   );
 }
