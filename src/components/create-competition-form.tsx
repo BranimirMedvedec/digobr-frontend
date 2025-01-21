@@ -5,6 +5,7 @@ import { getUsername } from "@/lib/auth-functions"
 import { createCompetition } from "@/lib/functions"
 import { CreateCompetition } from "@/models/create-competition"
 import { Group } from "@/models/group"
+import { useToast } from "@/hooks/use-toast"
 
 type CreateCompetitionFormProps = {
 	onCompetitionCreated: (id: number, name: string, data: Group[]) => void
@@ -15,23 +16,33 @@ export default function CreateCompetitionForm({
 }: CreateCompetitionFormProps) {
 	const [name, setName] = useState<string>("")
 	const [studentsNo, setStudentsNo] = useState<number>(0)
+	const [nameMessage, setNameMessage] = useState("")
+	const [studentsNoMessage, setStudentsNoMessage] = useState("")
+	const { toast } = useToast()
 
 	async function handleCreateCompetition(e: FormEvent) {
 		e.preventDefault()
 		try {
-			if (studentsNo <= 2) {
-				alert("Broj djece mora biti veći od 2")
-				return
-			}
+			if (name.length === 0 || studentsNo <= 2) {
+				if (name.length === 0)
+					setNameMessage("Morate unijeti naziv natjecanja")
 
-			if (name.length === 0) {
-				alert("Morate unijeti naziv natjecanja")
+				if (studentsNo <= 2)
+					setStudentsNoMessage("Broj djece mora biti veći od 2")
+
 				return
 			}
+			setNameMessage("")
+			setStudentsNoMessage("")
 
 			const username = getUsername()
 			if (!username) {
-				alert("Morate biti prijavljeni da biste kreirali natjecanje")
+				toast({
+					title: "Morate biti prijavljeni da biste kreirali natjecanje",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
 				return
 			}
 
@@ -64,8 +75,12 @@ export default function CreateCompetitionForm({
 				className="w-full bg-white border-0 rounded-xl h-12 text-center text-3xl font-alumni font-semibold shadow-lg"
 				value={name}
 				onChange={(e) => setName(e.target.value)}
-				required
 			/>
+			{nameMessage && (
+				<span className="text-red-500 text-sm font-bold">
+					{nameMessage}
+				</span>
+			)}
 
 			<h2 className="font-alumni text-white text-3xl font-semibold">
 				Broj djece
@@ -76,8 +91,12 @@ export default function CreateCompetitionForm({
 					className="w-2/3 bg-white border-0 rounded-xl h-12 text-center text-3xl font-alumni font-semibold shadow-lg"
 					value={studentsNo}
 					onChange={(e) => setStudentsNo(parseInt(e.target.value))}
-					required
 				/>
+				{studentsNoMessage && (
+					<span className="text-red-500 text-sm font-bold">
+						{studentsNoMessage}
+					</span>
+				)}
 				<Button
 					type="submit"
 					disabled={studentsNo === 0 || !name}
