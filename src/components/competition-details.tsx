@@ -4,6 +4,7 @@ import { Group } from "@/models/group"
 import { useEffect, useState } from "react"
 import { TreeView, TreeDataItem } from "./ui/tree-view"
 import { User } from "@/models/user"
+import { useToast } from "@/hooks/use-toast"
 
 type CompetitionDetailsType = {
 	competitionId: number
@@ -16,13 +17,17 @@ export default function CompetitionDetails({
 }: CompetitionDetailsType) {
 	const username = getUsername()
 	const [treeData, setTreeData] = useState<TreeDataItem[]>([])
+	const { toast } = useToast()
 
 	async function getCompetitionDetails() {
 		try {
 			if (!username) {
-				alert(
-					"Morate biti prijavljeni da biste vidjeli detalje natjecanja"
-				)
+				toast({
+					title: "Morate biti prijavljeni da biste vidjeli natjecanje.",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
 				return
 			}
 

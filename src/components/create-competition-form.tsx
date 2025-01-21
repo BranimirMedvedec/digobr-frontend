@@ -92,18 +92,18 @@ export default function CreateCompetitionForm({
 					value={studentsNo}
 					onChange={(e) => setStudentsNo(parseInt(e.target.value))}
 				/>
-				{studentsNoMessage && (
-					<span className="text-red-500 text-sm font-bold">
-						{studentsNoMessage}
-					</span>
-				)}
+
 				<Button
 					type="submit"
-					disabled={studentsNo === 0 || !name}
 					className="w-1/3 h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg">
 					Kreiraj
 				</Button>
 			</div>
+			{studentsNoMessage && (
+				<span className="text-red-500 text-sm font-bold">
+					{studentsNoMessage}
+				</span>
+			)}
 		</form>
 	)
 }
