@@ -1,9 +1,9 @@
 import TeamColor from "@/components/team-color.tsx";
 import FrogText from "@/components/frog-text.tsx";
 import { useEffect } from "react";
-import { subscribeToEvent } from "@/lib/socket-functions";
+import { subscribeToEvent, unsubscribeFromEvent } from "@/lib/socket-functions";
 import { useToast } from "@/hooks/use-toast";
-import { requestEmotion } from "@/lib/functions";
+import { registerReadiness, requestEmotion } from "@/lib/functions";
 import { getStudentGroup, setQuestionData } from "@/lib/store-functions";
 import { getUsername } from "@/lib/auth-functions";
 import { Emotion } from "@/models/emotion";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 type WaitingRoundProps = {
   level: number;
+  isCompetitionStart: boolean;
 };
 
 type CompetitionStartingData = Emotion & {
@@ -20,7 +21,10 @@ type CompetitionStartingData = Emotion & {
   guessingImages: QuestionInfo[] | null;
 };
 
-export default function WaitingRound({ level }: WaitingRoundProps) {
+export default function WaitingRound({
+  level,
+  isCompetitionStart,
+}: WaitingRoundProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
   const username = getUsername();
@@ -59,23 +63,17 @@ export default function WaitingRound({ level }: WaitingRoundProps) {
   }
 
   useEffect(() => {
+    if (!isCompetitionStart && username && groupCode) {
+      registerReadiness(username, groupCode);
+    }
     subscribeToEvent("competitionStarted", () => {
       console.log("Competition started");
-      toast({
-        title: "Natjecanje počinje!",
-        className: "bg-black text-white border-1 rounded-xl",
-      });
       handleCompetitionStarting();
     });
-    subscribeToEvent("startGuessing", () => {
-      console.log("Start guessing");
-    });
-    subscribeToEvent("guessingOver", () => {
-      console.log("Guessing over");
-    });
-    subscribeToEvent("competitionFinished", () => {
-      console.log("Competition finished");
-    });
+
+    return () => {
+      unsubscribeFromEvent("competitionStarted");
+    };
   }, []);
 
   return (

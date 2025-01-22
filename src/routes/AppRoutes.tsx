@@ -21,6 +21,8 @@ import { Toaster } from "@/components/ui/toaster";
 import HowToPlay from "@/pages/teacher/HowToPlay.tsx";
 import CorrectAnswer from "@/pages/student/game/CorrectAnswer.tsx";
 import WrongAnswer from "@/pages/student/game/WrongAnswer.tsx";
+import MultipleAnswer from "@/pages/student/game/MultipleAnswer.tsx";
+import RoundResults from "@/pages/student/game/RoundResults.tsx";
 
 export default function AppRoutes() {
   return (
@@ -61,8 +63,10 @@ export default function AppRoutes() {
               <Route index element={<Competition />} />
               <Route path="explain" element={<Explain />} />
               <Route path="guess" element={<Guess />} />
-              <Route path="guess/correct-answer" element={<CorrectAnswer />} />
-              <Route path="guess/wrong-answer" element={<WrongAnswer />} />
+              <Route path="answer" element={<MultipleAnswer />} />
+              <Route path="correct-answer" element={<CorrectAnswer />} />
+              <Route path="wrong-answer" element={<WrongAnswer />} />
+              <Route path="results" element={<RoundResults />} />
             </Route>
           </Route>
 

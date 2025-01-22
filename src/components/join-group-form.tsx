@@ -38,7 +38,7 @@ export default function JoinGroupForm() {
       setStudentGroup(data.group.code);
       setStudentColor(data.group.colorRgb);
       setCompetitionLevel(1);
-      navigate("competition");
+      navigate("competition", { state: { isCompetitionStart: true } });
     } catch (error) {
       console.log("Error joining group: ", error);
     }
