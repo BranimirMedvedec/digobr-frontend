@@ -1,7 +1,11 @@
 import FrogText from "@/components/frog-text.tsx"
 import { getUsername } from "@/lib/auth-functions"
 import { formatImage, giveAnswer } from "@/lib/functions"
-import { getQuestionData, getStudentGroup } from "@/lib/store-functions"
+import {
+	getCompetitionLevel,
+	getQuestionData,
+	getStudentGroup,
+} from "@/lib/store-functions"
 import { Answer } from "@/models/answer"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
@@ -19,6 +23,7 @@ export default function MultipleAnswer() {
 	const groupCode = getStudentGroup()
 	const navigate = useNavigate()
 	const data = getQuestionData()
+	const level = getCompetitionLevel() || 1
 	const images = data?.guessingImages
 	const formattedImages = images?.map((image) => {
 		return {
@@ -89,7 +94,7 @@ export default function MultipleAnswer() {
 
 	return (
 		<GameFrame
-			level={1}
+			level={level}
 			counter={ANSWER_TIMER}
 			showCounter={showCounter}>
 			{(counterValue) => {
