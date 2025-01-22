@@ -1,351 +1,363 @@
-import { Answer } from "@/models/answer"
-import { Competition } from "@/models/competition"
-import { CreateCompetition } from "@/models/create-competition"
-import { Emotion } from "@/models/emotion"
-import { Group } from "@/models/group"
-import { QuestionInfo } from "@/models/question-info"
-import { User } from "@/models/user"
-import { joinRoom, leaveRoom, openSocketConnection } from "./socket-functions"
+import { Answer } from "@/models/answer";
+import { Competition } from "@/models/competition";
+import { CreateCompetition } from "@/models/create-competition";
+import { Emotion } from "@/models/emotion";
+import { Group } from "@/models/group";
+import { QuestionInfo } from "@/models/question-info";
+import { User } from "@/models/user";
+import { joinRoom, leaveRoom, openSocketConnection } from "./socket-functions";
 
-const baseUrl = "http://localhost:3000/api"
+const baseUrl = "http://localhost:3000/api";
 
 // login/registration of user
 export const login = async (
-	username: string,
-	role: "teacher" | "student"
+  username: string,
+  role: "teacher" | "student"
 ): Promise<boolean> => {
-	try {
-		const url = `${baseUrl}/users?username=${username}&role=${role}`
-		const response = await fetch(url, {
-			method: "POST",
-		})
+  try {
+    const url = `${baseUrl}/users?username=${username}&role=${role}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
 
-		if (!response.ok) {
-			return false
-		}
+    if (!response.ok) {
+      return false;
+    }
 
-		return true
-	} catch (error) {
-		console.error("Login Error:", error)
-		throw error
-	}
-}
+    return true;
+  } catch (error) {
+    console.error("Login Error:", error);
+    throw error;
+  }
+};
 
 // teacher creates a competition
-type createCompetitionType = { id: number; groups: Group[] }
+type createCompetitionType = { id: number; groups: Group[] };
 export const createCompetition = async (
-	username: string,
-	competitionDetails: CreateCompetition
+  username: string,
+  competitionDetails: CreateCompetition
 ): Promise<createCompetitionType> => {
-	try {
-		const url = `${baseUrl}/competitions?username=${username}`
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify(competitionDetails),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
+  try {
+    const url = `${baseUrl}/competitions?username=${username}`;
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(competitionDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to create competition: ${response.statusText}`
-			)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to create competition: ${response.statusText}`);
+    }
 
-		const data: createCompetitionType = await response.json()
-		return data
-	} catch (error) {
-		console.error("Create Competition Error:", error)
-		throw error
-	}
-}
+    const data: createCompetitionType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Create Competition Error:", error);
+    throw error;
+  }
+};
 
 // student joins a group
 type joinGroupType = Competition & {
-	group: Group
-}
+  group: Group;
+};
 export const joinGroup = async (
-	username: string,
-	groupCode: string
+  username: string,
+  groupCode: string
 ): Promise<joinGroupType> => {
-	try {
-		const url = `${baseUrl}/groups/${groupCode}/users?username=${username}`
-		const response = await fetch(url, {
-			method: "POST",
-		})
+  try {
+    const url = `${baseUrl}/groups/${groupCode}/users?username=${username}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
 
-		if (!response.ok) {
-			throw new Error(`Failed to join group: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to join group: ${response.statusText}`);
+    }
 
-		const data: joinGroupType = await response.json()
+    const data: joinGroupType = await response.json();
 
-		// socket connection
-		openSocketConnection()
-		joinRoom(data.id.toString())
-		joinRoom(data.group.code)
-		return data
-	} catch (error) {
-		console.error("Join Group Error:", error)
-		throw error
-	}
-}
+    // socket connection
+    openSocketConnection();
+    joinRoom(data.id.toString());
+    joinRoom(data.group.code);
+    return data;
+  } catch (error) {
+    console.error("Join Group Error:", error);
+    throw error;
+  }
+};
 
 // student leaves a group
 export const leaveGroup = async (
-	username: string,
-	groupCode: string,
-	competitionId: number
+  username: string,
+  groupCode: string,
+  competitionId: number
 ): Promise<void> => {
-	try {
-		const url = `${baseUrl}/groups/${groupCode}/users?username=${username}`
-		const response = await fetch(url, {
-			method: "DELETE",
-		})
+  try {
+    const url = `${baseUrl}/groups/${groupCode}/users?username=${username}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+    });
 
-		if (!response.ok) {
-			throw new Error(`Failed to leave group: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to leave group: ${response.statusText}`);
+    }
 
-		// socket connection
-		leaveRoom(competitionId.toString())
-		leaveRoom(groupCode)
-	} catch (error) {
-		console.error("Leave Group Error:", error)
-		throw error
-	}
-}
+    // socket connection
+    leaveRoom(competitionId.toString());
+    leaveRoom(groupCode);
+  } catch (error) {
+    console.error("Leave Group Error:", error);
+    throw error;
+  }
+};
 
 // teacher gets all competitions created by them
-type getCompetitionsType = Competition[]
+type getCompetitionsType = Competition[];
 export const getCompetitions = async (
-	username: string
+  username: string
 ): Promise<getCompetitionsType> => {
-	try {
-		const url = `${baseUrl}/competitions?username=${username}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/competitions?username=${username}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to get competitions: ${response.statusText}`
-			)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to get competitions: ${response.statusText}`);
+    }
 
-		const data: getCompetitionsType = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Competitions Error:", error)
-		throw error
-	}
-}
+    const data: getCompetitionsType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Competitions Error:", error);
+    throw error;
+  }
+};
 
 // teacher gets specific competition
-type getCompetitionType = Group[]
+type getCompetitionType = Group[];
 export const getCompetition = async (
-	username: string,
-	competitionId: number
+  username: string,
+  competitionId: number
 ): Promise<getCompetitionType> => {
-	try {
-		const url = `${baseUrl}/competitions/${competitionId}?username=${username}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/competitions/${competitionId}?username=${username}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(`Failed to get competition: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to get competition: ${response.statusText}`);
+    }
 
-		const data: getCompetitionType = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Competition Error:", error)
-		throw error
-	}
-}
+    const data: getCompetitionType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Competition Error:", error);
+    throw error;
+  }
+};
 
 // teacher starts a competition
 export const startCompetition = async (
-	username: string,
-	competitionId: number
+  username: string,
+  competitionId: number
 ): Promise<void> => {
-	try {
-		const url = `${baseUrl}/competitions/${competitionId}/start?username=${username}`
-		const response = await fetch(url, {
-			method: "POST",
-		})
+  try {
+    const url = `${baseUrl}/competitions/${competitionId}/start?username=${username}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to start competition: ${response.statusText}`
-			)
-		}
-	} catch (error) {
-		console.error("Start Competition Error:", error)
-		throw error
-	}
-}
+    if (!response.ok) {
+      throw new Error(`Failed to start competition: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Start Competition Error:", error);
+    throw error;
+  }
+};
 
 // teacher ends a competition
-type endCompetitionType = Group[]
+type endCompetitionType = Group[];
 export const endCompetition = async (
-	username: string,
-	competitionId: number
+  username: string,
+  competitionId: number
 ): Promise<endCompetitionType> => {
-	try {
-		const url = `${baseUrl}/competitions/${competitionId}/close?username=${username}`
-		const response = await fetch(url, {
-			method: "POST",
-		})
+  try {
+    const url = `${baseUrl}/competitions/${competitionId}/close?username=${username}`;
+    const response = await fetch(url, {
+      method: "POST",
+    });
 
-		if (!response.ok) {
-			throw new Error(`Failed to end competition: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to end competition: ${response.statusText}`);
+    }
 
-		const data: endCompetitionType = await response.json()
-		return data
-	} catch (error) {
-		console.error("End Competition Error:", error)
-		throw error
-	}
-}
+    const data: endCompetitionType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("End Competition Error:", error);
+    throw error;
+  }
+};
+
+// student sends a sign to the BE to initiate socket sync
+export const registerReadiness = async (
+  username: string,
+  groupCode: string
+): Promise<void> => {
+  try {
+    const url = `${baseUrl}/register-readiness?code=${groupCode}&username=${username}`;
+    const response = await fetch(url, {
+      method: "PUT",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to start a sync: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("End Competition Error:", error);
+    throw error;
+  }
+};
 
 // student requests new question, ie. pictures of emotions
 type requestEmotionType = Emotion & {
-	imitationImage: QuestionInfo
+  imitationImage: QuestionInfo;
 } & {
-	guessingImages: QuestionInfo[] | null
-}
+  guessingImages: QuestionInfo[] | null;
+};
 export const requestEmotion = async (
-	username: string,
-	groupCode: string
+  username: string,
+  groupCode: string
 ): Promise<requestEmotionType> => {
-	try {
-		const url = `${baseUrl}/request-emotion?code=${groupCode}&username=${username}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/request-emotion?code=${groupCode}&username=${username}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(`Failed to request emotion: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to request emotion: ${response.statusText}`);
+    }
 
-		const data: requestEmotionType = await response.json()
-		return data
-	} catch (error) {
-		console.error("Request Emotion Error:", error)
-		throw error
-	}
-}
+    const data: requestEmotionType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Request Emotion Error:", error);
+    throw error;
+  }
+};
 
 // student gives answer to question
 export const giveAnswer = async (
-	username: string,
-	groupCode: string,
-	answer: Answer
+  username: string,
+  groupCode: string,
+  answer: Answer
 ): Promise<void> => {
-	try {
-		const url = `${baseUrl}/give-answer?code=${groupCode}&username=${username}`
-		const response = await fetch(url, {
-			method: "PUT",
-			body: JSON.stringify(answer),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
+  try {
+    const url = `${baseUrl}/give-answer?code=${groupCode}&username=${username}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(answer),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-		if (!response.ok) {
-			throw new Error(`Failed to give answer: ${response.statusText}`)
-		}
-	} catch (error) {
-		console.error("Give Answer Error:", error)
-		throw error
-	}
-}
+    if (!response.ok) {
+      throw new Error(`Failed to give answer: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Give Answer Error:", error);
+    throw error;
+  }
+};
 
 // get group score for a specific emotion
 export const getGroupEmotionScore = async (
-	groupCode: string,
-	emotionId: number
+  groupCode: string,
+  emotionId: number
 ): Promise<number> => {
-	try {
-		const url = `${baseUrl}/group-emotion-score/${groupCode}/${emotionId}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/group-emotion-score/${groupCode}/${emotionId}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to get group emotion score: ${response.statusText}`
-			)
-		}
+    if (!response.ok) {
+      throw new Error(
+        `Failed to get group emotion score: ${response.statusText}`
+      );
+    }
 
-		const data: number = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Group Emotion Score Error:", error)
-		throw error
-	}
-}
+    const data: number = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Group Emotion Score Error:", error);
+    throw error;
+  }
+};
 
 // get group score for a specific level
 export const getGroupLevelScore = async (
-	groupCode: string,
-	levelId: number
+  groupCode: string,
+  levelId: number
 ): Promise<number> => {
-	try {
-		const url = `${baseUrl}/group-score/${groupCode}/${levelId}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/group-score/${groupCode}/${levelId}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to get group level score: ${response.statusText}`
-			)
-		}
+    if (!response.ok) {
+      throw new Error(
+        `Failed to get group level score: ${response.statusText}`
+      );
+    }
 
-		const data: number = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Group Level Score Error:", error)
-		throw error
-	}
-}
+    const data: number = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Group Level Score Error:", error);
+    throw error;
+  }
+};
 
 // get group score by ALL levels
 export const getGroupScore = async (groupCode: string): Promise<number> => {
-	try {
-		const url = `${baseUrl}/group-score/${groupCode}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/group-score/${groupCode}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(`Failed to get group score: ${response.statusText}`)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to get group score: ${response.statusText}`);
+    }
 
-		const data: number = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Group Score Error:", error)
-		throw error
-	}
-}
+    const data: number = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Group Score Error:", error);
+    throw error;
+  }
+};
 
 // get group details - info about all users in group
-type getGroupDetailsType = User[]
+type getGroupDetailsType = User[];
 export const getGroupDetails = async (
-	groupCode: string
+  groupCode: string
 ): Promise<getGroupDetailsType> => {
-	try {
-		const url = `${baseUrl}/groups/${groupCode}`
-		const response = await fetch(url)
+  try {
+    const url = `${baseUrl}/groups/${groupCode}`;
+    const response = await fetch(url);
 
-		if (!response.ok) {
-			throw new Error(
-				`Failed to get group details: ${response.statusText}`
-			)
-		}
+    if (!response.ok) {
+      throw new Error(`Failed to get group details: ${response.statusText}`);
+    }
 
-		const data: getGroupDetailsType = await response.json()
-		return data
-	} catch (error) {
-		console.error("Get Group Details Error:", error)
-		throw error
-	}
-}
+    const data: getGroupDetailsType = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Get Group Details Error:", error);
+    throw error;
+  }
+};
 
 export const formatImage = (data?: string): string => {
-	return `data:jpeg;base64,${data}`
-}
+  return `data:jpeg;base64,${data}`;
+};

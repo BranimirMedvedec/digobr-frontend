@@ -3,8 +3,14 @@ import { formatImage } from "@/lib/functions";
 import { getQuestionData } from "@/lib/store-functions";
 import { Translations as T } from "@/lib/translations";
 import GameFrame from "@/components/game-frame.tsx";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CorrectAnswer() {
+  // TODO extract in separate file
+  const SHOW_ANSWER_RESULTS = 5;
+
+  const navigate = useNavigate();
   const data = getQuestionData();
   const correctAnswer = data?.guessingImages?.find(
     (image) => image.isCorrectAnswer
@@ -14,6 +20,12 @@ export default function CorrectAnswer() {
     emotionName && emotionName in T
       ? T[emotionName as keyof typeof T]
       : "Unknown emotion";
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/student/competition/results");
+    }, SHOW_ANSWER_RESULTS * 1000);
+  }, []);
 
   return (
     <GameFrame level={1} counter={0} showCounter={false}>

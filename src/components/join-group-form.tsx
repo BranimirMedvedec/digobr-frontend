@@ -1,11 +1,11 @@
-import { FormEvent, useState } from "react"
-import { Input } from "./ui/input"
-import { joinGroup } from "@/lib/functions"
-import { getUsername } from "@/lib/auth-functions"
-import { Button } from "./ui/button"
-import { Competition } from "@/models/competition"
-import { Group } from "@/models/group"
-import { useNavigate } from "react-router-dom"
+import { FormEvent, useState } from "react";
+import { Input } from "./ui/input";
+import { joinGroup } from "@/lib/functions";
+import { getUsername } from "@/lib/auth-functions";
+import { Button } from "./ui/button";
+import { Competition } from "@/models/competition";
+import { Group } from "@/models/group";
+import { useNavigate } from "react-router-dom";
 import {
 	setCompetitionLevel,
 	setStudentColor,
@@ -38,26 +38,26 @@ export default function JoinGroupForm() {
 				return
 			}
 
-			const data: Competition & {
-				group: Group
-			} = await joinGroup(username, groupCode)
-			console.log("Joined group " + groupCode + ": ", data)
+      const data: Competition & {
+        group: Group;
+      } = await joinGroup(username, groupCode);
+      console.log("Joined group " + groupCode + ": ", data);
 
-			setStudentGroup(data.group.code)
-			setStudentColor(data.group.colorRgb)
-			setCompetitionLevel(1)
-			navigate("competition")
-		} catch (error) {
-			console.log("Error joining group: ", error)
-		}
-	}
+      setStudentGroup(data.group.code);
+      setStudentColor(data.group.colorRgb);
+      setCompetitionLevel(1);
+      navigate("competition", { state: { isCompetitionStart: true } });
+    } catch (error) {
+      console.log("Error joining group: ", error);
+    }
+  }
 
-	return (
-		<div className="w-1/2 flex flex-col items-left justify-center mx-2">
-			<form onSubmit={handleJoinCompetition}>
-				<h2 className="font-alumni text-white text-3xl font-semibold uppercase text-left">
-					Upiši kod tima
-				</h2>
+  return (
+    <div className="w-1/2 flex flex-col items-left justify-center mx-2">
+      <form onSubmit={handleJoinCompetition}>
+        <h2 className="font-alumni text-white text-3xl font-semibold uppercase text-left">
+          Upiši kod tima
+        </h2>
 
 				<Input
 					className="w-full bg-white border-0 rounded-xl h-12 text-center text-3xl font-alumni font-semibold shadow-lg"
@@ -70,19 +70,20 @@ export default function JoinGroupForm() {
 					</span>
 				)}
 
-				<div className="flex items-center justify-start pt-4">
-					<Button
-						type="submit"
-						className="w-3/4 h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg">
-						Start
-					</Button>
-					<img
-						src="/frog_2.png"
-						alt="Frog"
-						className="w-14 h-14 drop-shadow-lg ml-2 animate-bounce"
-					/>
-				</div>
-			</form>
-		</div>
-	)
+        <div className="flex items-center justify-start pt-4">
+          <Button
+            type="submit"
+            className="w-3/4 h-12 border-4 border-white rounded-xl text-white uppercase text-3xl font-alumni font-semibold shadow-lg"
+          >
+            Start
+          </Button>
+          <img
+            src="/frog_2.png"
+            alt="Frog"
+            className="w-14 h-14 drop-shadow-lg ml-2 animate-bounce"
+          />
+        </div>
+      </form>
+    </div>
+  );
 }

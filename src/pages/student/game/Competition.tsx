@@ -6,6 +6,7 @@ import CelebrateScore from "@/components/celebrate-score.tsx";
 import TeamColor from "@/components/team-color.tsx";
 import WaitingRound from "@/pages/student/game/WaitingRound.tsx";
 import { getCompetitionLevel } from "@/lib/store-functions";
+import { useLocation } from "react-router-dom";
 
 export default function Competition() {
   const gameLevel = getCompetitionLevel() ?? 0;
@@ -20,10 +21,16 @@ export default function Competition() {
     return initialLevel;
   });
 
+  const location = useLocation();
+  const IS_COMPETITION_START = location.state?.isCompetitionStart ?? false;
+  // init waitGameRound using location.state if present
+  const [waitGameRound, setWaitGameRound] = useState<boolean>(
+    () => location.state?.waitGameRound ?? false
+  );
   const [invisibleLevels, setInvisibleLevels] = useState<number[]>([]);
   const [animateFrogs, setAnimateFrogs] = useState<boolean>(false);
   const [animateScore, setAnimateScore] = useState<boolean>(false);
-  const [waitGameRound, setWaitGameRound] = useState<boolean>(false);
+
   const levels = [1, 2, 3, 4];
 
   function defineLevelStatus(level: number) {
@@ -68,7 +75,10 @@ export default function Competition() {
   return (
     <>
       {waitGameRound ? (
-        <WaitingRound level={gameLevel} />
+        <WaitingRound
+          level={gameLevel}
+          isCompetitionStart={IS_COMPETITION_START}
+        />
       ) : (
         <div className="relative h-screen sm:w-1/2 lg:w-1/3 mx-auto overflow-y-hidden">
           {animateScore && (

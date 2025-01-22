@@ -7,7 +7,6 @@ type EmotionImageProps = {
   text: string;
 };
 
-// TODO: use real image from BE
 export default function EmotionImage({
   imageBlur = false,
   text,
