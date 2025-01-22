@@ -1,7 +1,11 @@
 import FrogText from "@/components/frog-text.tsx";
 import { getUsername } from "@/lib/auth-functions";
 import { formatImage, giveAnswer } from "@/lib/functions";
-import { getQuestionData, getStudentGroup } from "@/lib/store-functions";
+import {
+  getCompetitionLevel,
+  getQuestionData,
+  getStudentGroup,
+} from "@/lib/store-functions";
 import { Answer } from "@/models/answer";
 import { useNavigate } from "react-router-dom";
 import GameFrame from "@/components/game-frame.tsx";
@@ -25,6 +29,7 @@ export default function MultipleAnswer() {
       data: formatImage(image.data),
     };
   });
+  const level = getCompetitionLevel() || 1;
   const [showCounter, setShowCounter] = useState(true);
   const selectedImgIndexRef = useRef<number | undefined>(undefined);
   const [selectedImgIndex, setSelectedImgIndex] = useState<number | undefined>(
@@ -88,7 +93,7 @@ export default function MultipleAnswer() {
   }, []);
 
   return (
-    <GameFrame level={1} counter={ANSWER_TIMER} showCounter={showCounter}>
+    <GameFrame level={level} counter={ANSWER_TIMER} showCounter={showCounter}>
       {(counterValue) => {
         if (selectedImgIndex === undefined)
           return (

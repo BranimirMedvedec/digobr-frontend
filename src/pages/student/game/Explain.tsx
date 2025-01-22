@@ -7,7 +7,7 @@ import {
   subscribeToEvent,
   unsubscribeFromEvent,
 } from "@/lib/socket-functions.ts";
-import { getStudentGroup } from "@/lib/store-functions.ts";
+import { getCompetitionLevel, getStudentGroup } from "@/lib/store-functions.ts";
 import { useNavigate } from "react-router-dom";
 
 export default function Explain() {
@@ -16,6 +16,7 @@ export default function Explain() {
   const EXPLAIN_TIMER = 15; /* time for the explainer to imitate new emotion */
 
   const navigate = useNavigate();
+  const level = getCompetitionLevel() || 1;
 
   const [showCounter, setShowCounter] = useState(true);
   const [timer, setTimer] = useState<number>(() => {
@@ -46,7 +47,7 @@ export default function Explain() {
   }, []);
 
   return (
-    <GameFrame level={1} counter={timer} showCounter={showCounter}>
+    <GameFrame level={level} counter={timer} showCounter={showCounter}>
       {() => {
         switch (timer) {
           case GET_READY_TIMER:

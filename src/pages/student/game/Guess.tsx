@@ -6,9 +6,11 @@ import {
   unsubscribeFromEvent,
 } from "@/lib/socket-functions.ts";
 import { useNavigate } from "react-router-dom";
+import { getCompetitionLevel } from "@/lib/store-functions.ts";
 
 export default function Guess() {
   const navigate = useNavigate();
+  const level = getCompetitionLevel() || 1;
 
   useEffect(() => {
     subscribeToEvent("startGuessing", () => {
@@ -21,7 +23,7 @@ export default function Guess() {
     };
   }, []);
   return (
-    <GameFrame level={1} counter={0} showCounter={false}>
+    <GameFrame level={level} counter={0} showCounter={false}>
       {() => {
         return (
           <div className="mt-[50%] md:mt-[20%]">

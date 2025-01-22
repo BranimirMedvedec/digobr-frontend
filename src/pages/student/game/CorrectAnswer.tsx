@@ -1,6 +1,6 @@
 import FrogText from "@/components/frog-text.tsx";
 import { formatImage } from "@/lib/functions";
-import { getQuestionData } from "@/lib/store-functions";
+import { getCompetitionLevel, getQuestionData } from "@/lib/store-functions";
 import { Translations as T } from "@/lib/translations";
 import GameFrame from "@/components/game-frame.tsx";
 import { useEffect } from "react";
@@ -20,6 +20,7 @@ export default function CorrectAnswer() {
     emotionName && emotionName in T
       ? T[emotionName as keyof typeof T]
       : "Unknown emotion";
+  const level = getCompetitionLevel() || 1;
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,7 +29,7 @@ export default function CorrectAnswer() {
   }, []);
 
   return (
-    <GameFrame level={1} counter={0} showCounter={false}>
+    <GameFrame level={level} counter={0} showCounter={false}>
       {() => (
         <div className="flex flex-col items-center justify-start p-12 sm:w-1/2 md:w-1/3">
           <img

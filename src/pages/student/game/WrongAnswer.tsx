@@ -1,6 +1,6 @@
 import FrogText from "@/components/frog-text.tsx";
 import { formatImage } from "@/lib/functions";
-import { getQuestionData } from "@/lib/store-functions";
+import { getCompetitionLevel, getQuestionData } from "@/lib/store-functions";
 import { Translations as T } from "@/lib/translations";
 import { useLocation, useNavigate } from "react-router-dom";
 import GameFrame from "@/components/game-frame.tsx";
@@ -11,6 +11,7 @@ export default function WrongAnswer() {
   const SHOW_ANSWER_RESULTS = 5;
 
   const navigate = useNavigate();
+  const level = getCompetitionLevel() || 1;
   const location = useLocation();
   const index = location.state.index;
   const data = getQuestionData();
@@ -36,7 +37,7 @@ export default function WrongAnswer() {
   }, []);
 
   return (
-    <GameFrame level={1} counter={0} showCounter={false}>
+    <GameFrame level={level} counter={0} showCounter={false}>
       {() => (
         <div className="grid grid-rows-3 grid-cols-2 p-12 sm:w-1/2 lg:w-1/3">
           <div className="flex flex-col items-start justify-start">

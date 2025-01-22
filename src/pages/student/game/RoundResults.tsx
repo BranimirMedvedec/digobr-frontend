@@ -28,7 +28,7 @@ export default function RoundResults() {
       ? T[emotionName as keyof typeof T]
       : "Unknown emotion";
   const groupCode = getStudentGroup();
-  const level = data?.level;
+  const level = data?.level || 1;
   const [score, setScore] = useState<number>(0);
 
   async function handleGetGroupLevelScore() {
@@ -61,7 +61,7 @@ export default function RoundResults() {
   }, []);
 
   return (
-    <GameFrame level={1} counter={0} showCounter={false}>
+    <GameFrame level={level} counter={0} showCounter={false}>
       {() => (
         <div className="flex flex-col items-center justify-start py-12 h-screen">
           <div className="grid grid-cols-2 grid-rows-4 justify-items-center px-5 gap-4 mb-6 w-screen md:w-2/3">
