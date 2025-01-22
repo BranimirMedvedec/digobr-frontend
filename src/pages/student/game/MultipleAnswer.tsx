@@ -10,7 +10,7 @@ import {
   subscribeToEvent,
   unsubscribeFromEvent,
 } from "@/lib/socket-functions.ts";
-import {useToast} from "@/hooks/use-toast.ts";
+import { useToast } from "@/hooks/use-toast.ts";
 
 export default function MultipleAnswer() {
   const ANSWER_TIMER = 13; /* time for the guesser to choose their answer */
@@ -30,7 +30,7 @@ export default function MultipleAnswer() {
   const [selectedImgIndex, setSelectedImgIndex] = useState<number | undefined>(
     undefined
   );
-    const { toast } = useToast()
+  const { toast } = useToast();
 
   const handleAnswer = (index: number, counterValue: number) => async () => {
     console.log("Answered:", index);
@@ -50,15 +50,15 @@ export default function MultipleAnswer() {
         percentageOfTimeLeft: counterValue / ANSWER_TIMER,
       };
 
-			if (!username || !groupCode) {
-				toast({
-					title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
-					variant: "destructive",
-					className: "bg-black text-white border-1 rounded-xl",
-					duration: 2500,
-				})
-				return
-			}
+      if (!username || !groupCode) {
+        toast({
+          title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
+          variant: "destructive",
+          className: "bg-black text-white border-1 rounded-xl",
+          duration: 2500,
+        });
+        return;
+      }
 
       await giveAnswer(username, groupCode, answerBody);
     } catch (error) {
@@ -77,7 +77,7 @@ export default function MultipleAnswer() {
       } else {
         console.log("Wrong answer");
         navigate("/student/competition/wrong-answer", {
-          state: { selectedImgIndex: index },
+          state: { index: index },
         });
       }
     });
