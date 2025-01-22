@@ -30,12 +30,17 @@ export default function WaitingRound({
   const username = getUsername();
   const groupCode = getStudentGroup();
 
-  async function handleCompetitionStarting() {
-    try {
-      if (!username || !groupCode) {
-        alert("Morate biti prijavljeni da biste sudjelovali u natjecanju");
-        return;
-      }
+	async function handleCompetitionStarting() {
+		try {
+			if (!username || !groupCode) {
+				toast({
+					title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
+				return
+			}
 
       const data: CompetitionStartingData = await requestEmotion(
         username,

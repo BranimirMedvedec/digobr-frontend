@@ -84,7 +84,7 @@ export default function Competition() {
           {animateScore && (
             <>
               <TeamColor positionCSS="absolute" />
-              <CelebrateScore score={5265} />
+              <CelebrateScore  />
             </>
           )}
           <EmoFrogFlower animateFrogs={animateFrogs} />

@@ -43,7 +43,7 @@ export default function AppRoutes() {
             <Route index element={<TeacherHome />} />
             <Route path="create-competition" element={<CreateCompetition />} />
             <Route
-              path="competition/:id/:name"
+              path="competition/:id"
               element={<CurrentCompetition />}
             />
             <Route path="competitions" element={<Competitions />} />

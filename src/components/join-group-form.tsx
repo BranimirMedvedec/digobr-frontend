@@ -7,28 +7,36 @@ import { Competition } from "@/models/competition";
 import { Group } from "@/models/group";
 import { useNavigate } from "react-router-dom";
 import {
-  setCompetitionLevel,
-  setStudentColor,
-  setStudentGroup,
-} from "@/lib/store-functions";
+	setCompetitionLevel,
+	setStudentColor,
+	setStudentGroup,
+} from "@/lib/store-functions"
+import { useToast } from "@/hooks/use-toast"
 
 export default function JoinGroupForm() {
-  const navigate = useNavigate();
-  const [groupCode, setGroupCode] = useState<string>("");
+	const navigate = useNavigate()
+	const [groupCode, setGroupCode] = useState<string>("")
+	const [groupCodeMessage, setGroupCodeMessage] = useState("")
+	const { toast } = useToast()
 
-  async function handleJoinCompetition(e: FormEvent) {
-    e.preventDefault();
-    try {
-      if (!groupCode) {
-        alert("Kod grupe je obavezan");
-        return;
-      }
+	async function handleJoinCompetition(e: FormEvent) {
+		e.preventDefault()
+		try {
+			if (!groupCode) {
+				setGroupCodeMessage("Kod grupe je obavezan")
+				return
+			}
 
-      const username = getUsername();
-      if (!username) {
-        alert("Morate biti prijavljeni da biste se pridružili grupi");
-        return;
-      }
+			const username = getUsername()
+			if (!username) {
+				toast({
+					title: "Morate biti prijavljeni da biste se pridružili grupi",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
+				return
+			}
 
       const data: Competition & {
         group: Group;
@@ -51,12 +59,16 @@ export default function JoinGroupForm() {
           Upiši kod tima
         </h2>
 
-        <Input
-          className="w-full bg-white border-0 rounded-xl h-12 text-center text-3xl font-alumni font-semibold shadow-lg"
-          value={groupCode}
-          onChange={(e) => setGroupCode(e.target.value)}
-          required
-        />
+				<Input
+					className="w-full bg-white border-0 rounded-xl h-12 text-center text-3xl font-alumni font-semibold shadow-lg"
+					value={groupCode}
+					onChange={(e) => setGroupCode(e.target.value)}
+				/>
+				{groupCodeMessage && (
+					<span className="text-red-500 text-sm font-bold">
+						{groupCodeMessage}
+					</span>
+				)}
 
         <div className="flex items-center justify-start pt-4">
           <Button
