@@ -3,6 +3,7 @@ import { getUsername } from "@/lib/auth-functions";
 import { formatImage, giveAnswer } from "@/lib/functions";
 import { getQuestionData, getStudentGroup } from "@/lib/store-functions";
 import { Answer } from "@/models/answer";
+import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom";
 import GameFrame from "@/components/game-frame.tsx";
 import { useEffect, useRef, useState } from "react";
@@ -29,6 +30,7 @@ export default function MultipleAnswer() {
   const [selectedImgIndex, setSelectedImgIndex] = useState<number | undefined>(
     undefined
   );
+    const { toast } = useToast()
 
   const handleAnswer = (index: number, counterValue: number) => async () => {
     console.log("Answered:", index);
@@ -48,10 +50,15 @@ export default function MultipleAnswer() {
         percentageOfTimeLeft: counterValue / ANSWER_TIMER,
       };
 
-      if (!username || !groupCode) {
-        alert("Morate biti prijavljeni da biste sudjelovali u natjecanju");
-        return;
-      }
+			if (!username || !groupCode) {
+				toast({
+					title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
+				return
+			}
 
       await giveAnswer(username, groupCode, answerBody);
     } catch (error) {

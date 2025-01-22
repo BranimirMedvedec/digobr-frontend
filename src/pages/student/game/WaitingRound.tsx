@@ -30,37 +30,42 @@ export default function WaitingRound({
   const username = getUsername();
   const groupCode = getStudentGroup();
 
-  async function handleCompetitionStarting() {
-    try {
-      if (!username || !groupCode) {
-        alert("Morate biti prijavljeni da biste sudjelovali u natjecanju");
-        return;
-      }
+	async function handleCompetitionStarting() {
+		try {
+			if (!username || !groupCode) {
+				toast({
+					title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
+					variant: "destructive",
+					className: "bg-black text-white border-1 rounded-xl",
+					duration: 2500,
+				})
+				return
+			}
 
-      const data: CompetitionStartingData = await requestEmotion(
-        username,
-        groupCode
-      );
-      console.log("Requested emotion:", data);
-      setQuestionData(data);
+			const data: CompetitionStartingData = await requestEmotion(
+				username,
+				groupCode
+			)
+			console.log("Requested emotion:", data)
+			setQuestionData(data)
 
-      if (data.isImitating) {
-        toast({
-          title: "tvoj je red da imitiras sliku!",
-          className: "bg-black text-white border-1 rounded-xl",
-        });
-        navigate("explain", { state: { data } });
-      } else {
-        toast({
-          title: "tvoj prijatelj imitira sliku, gledaj i pogađaj!",
-          className: "bg-black text-white border-1 rounded-xl",
-        });
-        navigate("guess");
-      }
-    } catch (error) {
-      console.error("Error requesting emotion:", error);
-    }
-  }
+			if (data.isImitating) {
+				toast({
+					title: "tvoj je red da imitiras sliku!",
+					className: "bg-black text-white border-1 rounded-xl",
+				})
+				navigate("explain", { state: { data } })
+			} else {
+				toast({
+					title: "tvoj prijatelj imitira sliku, gledaj i pogađaj!",
+					className: "bg-black text-white border-1 rounded-xl",
+				})
+				navigate("guess")
+			}
+		} catch (error) {
+			console.error("Error requesting emotion:", error)
+		}
+	}
 
   useEffect(() => {
     if (!isCompetitionStart && username && groupCode) {
