@@ -78,12 +78,17 @@ export default function MultipleAnswer() {
       console.log(index);
       if (index !== undefined && images?.[index]?.isCorrectAnswer) {
         console.log("Correct answer");
-        navigate("/student/competition/correct-answer");
+        setTimeout(
+          () => navigate("/student/competition/correct-answer"),
+          3 * 1000
+        );
       } else {
         console.log("Wrong answer");
-        navigate("/student/competition/wrong-answer", {
-          state: { index: index },
-        });
+        setTimeout(() => {
+          navigate("/student/competition/wrong-answer", {
+            state: { index: index },
+          });
+        }, 3 * 1000);
       }
     });
 
