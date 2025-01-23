@@ -50,16 +50,8 @@ export default function WaitingRound({
       setQuestionData(data);
 
       if (data.isImitating) {
-        toast({
-          title: "tvoj je red da imitiras sliku!",
-          className: "bg-black text-white border-1 rounded-xl",
-        });
         navigate("explain", { state: { data } });
       } else {
-        toast({
-          title: "tvoj prijatelj imitira sliku, gledaj i pogađaj!",
-          className: "bg-black text-white border-1 rounded-xl",
-        });
         navigate("guess");
       }
     } catch (error) {
