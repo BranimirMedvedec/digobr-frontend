@@ -50,9 +50,13 @@ export default function WaitingRound({
       setQuestionData(data);
 
       if (data.isImitating) {
-        navigate("explain", { state: { data } });
+        setTimeout(() => {
+          navigate("explain", { state: { data } });
+        }, 2 * 1000);
       } else {
-        navigate("guess");
+        setTimeout(() => {
+          navigate("guess");
+        }, 2 * 1000);
       }
     } catch (error) {
       console.error("Error requesting emotion:", error);
