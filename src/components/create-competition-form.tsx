@@ -56,10 +56,10 @@ export default function CreateCompetitionForm({
 				username,
 				competition
 			).finally(() => {
-				setCompetitionId(id.toString())
 				setStudentsNo(0)
 				setName("")
 			})
+			setCompetitionId(id.toString())
 
 			onCompetitionCreated(id, name, groups)
 			console.log("Created competition with groups: ", groups)

@@ -1,11 +1,12 @@
 import Title from "@/components/title"
 import { getUsername } from "@/lib/auth-functions"
-import { getCompetitionId } from "@/lib/store-functions"
+import { getCompetitionId, getCompetitionName } from "@/lib/store-functions"
 import { Link } from "react-router-dom"
 
 export default function TeacherHome() {
 	const username = getUsername()
 	const competitionId = getCompetitionId()
+	const competitionName = getCompetitionName()
 	const text = `Bok ${username},
     
     dobrodošli na platformu za e-učenje emocija namijenjenu djeci za lako usvajanje znanja kroz igru u timovima.`
@@ -67,8 +68,12 @@ export default function TeacherHome() {
 					</div>
 
 					<div className="row-span-1 col-span-1 flex justify-center items-start bg-gradient-to-r from-[#FF0077] to-[#FB28FF] rounded-2xl p-4">
-						{competitionId && competitionId !== "null" ? (
-							<Link to={`/teacher/competition/${competitionId}`}>
+						{competitionId &&
+						competitionId !== "null" &&
+						competitionName ? (
+							<Link
+								to={`/teacher/competition/${competitionId}`}
+								state={{ name: competitionName }}>
 								<div className="relative bg-white rounded-2xl p-2">
 									<div className="absolute top-14 left-0">
 										<img

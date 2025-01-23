@@ -8,11 +8,11 @@ export default function CelebrateScore() {
 	const [score, setScore] = useState(0)
 
 	useEffect(() => {
-		;async () => {
+		;(async () => {
 			if (!groupCode) return
 			const response = await getGroupScore(groupCode)
 			setScore(response)
-		}
+		})()
 	}, [groupCode])
 
 	return (

@@ -44,6 +44,7 @@ export const competitionFinished = (): void => {
 	removeStudentGroup()
 	removeCompetitionLevel()
 	removeCompetitionId()
+	removeCompetitionName()
 	removeQuestionData()
 }
 
@@ -77,4 +78,17 @@ export const getCompetitionId = (): string | null => {
 
 export const removeCompetitionId = (): void => {
 	localStorage.removeItem("competitionId")
+}
+
+export const setCompetitionName = (name: string): void => {
+	localStorage.setItem("competitionName", name)
+}
+
+export const getCompetitionName = (): string | null => {
+	const name = localStorage.getItem("competitionName")
+	return name ? name : null
+}
+
+export const removeCompetitionName = (): void => {
+	localStorage.removeItem("competitionName")
 }
