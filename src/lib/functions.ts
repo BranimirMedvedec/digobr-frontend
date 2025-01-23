@@ -212,7 +212,6 @@ export const registerReadiness = async (
     const response = await fetch(url, {
       method: "PUT",
     });
-
     if (!response.ok) {
       throw new Error(`Failed to start a sync: ${response.statusText}`);
     }

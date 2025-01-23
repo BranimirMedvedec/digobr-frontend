@@ -1,6 +1,6 @@
 import TeamColor from "@/components/team-color.tsx";
 import FrogText from "@/components/frog-text.tsx";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { subscribeToEvent, unsubscribeFromEvent } from "@/lib/socket-functions";
 import { useToast } from "@/hooks/use-toast";
 import { registerReadiness, requestEmotion } from "@/lib/functions";
@@ -30,17 +30,17 @@ export default function WaitingRound({
   const username = getUsername();
   const groupCode = getStudentGroup();
 
-	async function handleCompetitionStarting() {
-		try {
-			if (!username || !groupCode) {
-				toast({
-					title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
-					variant: "destructive",
-					className: "bg-black text-white border-1 rounded-xl",
-					duration: 2500,
-				})
-				return
-			}
+  async function handleCompetitionStarting() {
+    try {
+      if (!username || !groupCode) {
+        toast({
+          title: "Morate biti prijavljeni da biste vidjeli aktivno natjecanje.",
+          variant: "destructive",
+          className: "bg-black text-white border-1 rounded-xl",
+          duration: 2500,
+        });
+        return;
+      }
 
       const data: CompetitionStartingData = await requestEmotion(
         username,
@@ -67,9 +67,16 @@ export default function WaitingRound({
     }
   }
 
+  const hasRegisteredReadiness = useRef(false);
   useEffect(() => {
-    if (!isCompetitionStart && username && groupCode) {
+    if (
+      !hasRegisteredReadiness.current &&
+      !isCompetitionStart &&
+      username &&
+      groupCode
+    ) {
       registerReadiness(username, groupCode);
+      hasRegisteredReadiness.current = true; // execute req only once
     }
     subscribeToEvent("competitionStarted", () => {
       console.log("Competition started");
