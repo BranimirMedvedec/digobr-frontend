@@ -14,7 +14,7 @@ export default function Title({
   showFrog = true,
 }: TitleProps) {
   return (
-    <div className="relative text-center p-4 sm:w-[23rem] sm:mx-auto">
+    <div className="relative text-center p-4 sm:w-[23rem] mx-auto">
       <Link to="/">
         {/* Main Title Container */}
         <div className="relative flex justify-center items-center">
