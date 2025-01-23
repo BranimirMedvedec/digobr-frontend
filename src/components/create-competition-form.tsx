@@ -6,6 +6,7 @@ import { createCompetition } from "@/lib/functions"
 import { CreateCompetition } from "@/models/create-competition"
 import { Group } from "@/models/group"
 import { useToast } from "@/hooks/use-toast"
+import { setCompetitionId } from "@/lib/store-functions"
 
 type CreateCompetitionFormProps = {
 	onCompetitionCreated: (id: number, name: string, data: Group[]) => void
@@ -55,6 +56,7 @@ export default function CreateCompetitionForm({
 				username,
 				competition
 			).finally(() => {
+				setCompetitionId(id.toString())
 				setStudentsNo(0)
 				setName("")
 			})
