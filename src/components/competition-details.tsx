@@ -66,13 +66,12 @@ export default function CompetitionDetails({
 						style={{
 							backgroundColor: group.colorRgb,
 						}}></div>
-					<span>{`${group.code} - Score: ${group.score}`}</span>
+					<span>{`${group.code} - Bodovi: ${group.score}`}</span>
 				</div>
 			),
 			children: group.users.map((user) => ({
 				id: user.id.toString(),
-				name: `${user.username} - Score: ${user.score}`,
-				children: [],
+				name: `${user.username} - Bodovi: ${user.score}`,
 			})),
 		}))
 	}
@@ -83,10 +82,7 @@ export default function CompetitionDetails({
 
 	return (
 		<>
-			<TreeView
-				data={treeData}
-				// set the group.colorRgb to the color of the group
-			/>
+			<TreeView data={treeData} />
 		</>
 	)
 }

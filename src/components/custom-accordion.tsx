@@ -10,7 +10,6 @@ import { useEffect, useState } from "react"
 import CompetitionDetails from "./competition-details"
 import { getUsername } from "@/lib/auth-functions"
 import { getCompetitions } from "@/lib/functions"
-import { Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export default function CustomAccordion() {
@@ -54,11 +53,6 @@ export default function CustomAccordion() {
 		[Status.FINISHED]: "bg-red-500", // Red for finished
 	}
 
-	const legend = `
-    Zelena - natjecanje je započelo
-    Siva - natjecanje nije započelo
-    Crvena - natjecanje je završilo`
-
 	return (
 		<>
 			<Accordion
@@ -93,17 +87,6 @@ export default function CustomAccordion() {
 					</AccordionItem>
 				))}
 			</Accordion>
-
-			<Info
-				className="w-8 h-8 text-white absolute bottom-4 right-4"
-				onClick={() => {
-					toast({
-						title: "Legenda",
-						description: <pre>{legend}</pre>,
-						className: "bg-black text-white border-1 rounded-xl",
-					})
-				}}
-			/>
 		</>
 	)
 }
