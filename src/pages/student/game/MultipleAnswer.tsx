@@ -80,7 +80,7 @@ export default function MultipleAnswer() {
         console.log("Correct answer");
         setTimeout(
           () => navigate("/student/competition/correct-answer"),
-          3 * 1000
+          2 * 1000
         );
       } else {
         console.log("Wrong answer");
@@ -88,7 +88,7 @@ export default function MultipleAnswer() {
           navigate("/student/competition/wrong-answer", {
             state: { index: index },
           });
-        }, 3 * 1000);
+        }, 2 * 1000);
       }
     });
 
