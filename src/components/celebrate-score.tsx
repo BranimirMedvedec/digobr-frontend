@@ -6,6 +6,8 @@ import {
 	getStudentGroup,
 } from "@/lib/store-functions"
 import { useEffect, useState } from "react"
+import UserHomeButton from "./user-home-button"
+import { Link } from "react-router-dom"
 
 export default function CelebrateScore() {
 	const groupCode = getStudentGroup()
@@ -50,6 +52,10 @@ export default function CelebrateScore() {
 						className="absolute -bottom-1/2 -right-12 h-24 scale-x-[-1]"
 					/>
 				</p>
+			</div>
+
+			<div className="fixed bottom-14 left-0 w-full flex justify-center items-center mb-4 z-50">
+				<UserHomeButton />
 			</div>
 		</div>
 	)
