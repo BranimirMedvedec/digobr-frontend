@@ -53,7 +53,7 @@ export default function CustomAccordion() {
 		[Status.FINISHED]: "bg-red-500", // Red for finished
 	}
 
-	return (
+	return competitions.length > 0 ? (
 		<>
 			<Accordion
 				type="single"
@@ -88,5 +88,11 @@ export default function CustomAccordion() {
 				))}
 			</Accordion>
 		</>
+	) : (
+		<div className="flex justify-center items-center h-64">
+			<p className="text-2xl font-hammersmith">
+				Nema prethodnih natjecanja
+			</p>
+		</div>
 	)
 }
