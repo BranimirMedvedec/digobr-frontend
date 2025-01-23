@@ -3,18 +3,26 @@ import LeaderboardColumn from "@/components/leaderboard-column.tsx";
 import LeaderboardRow from "@/components/leaderboard-row.tsx";
 import { Group, GroupWithPlace } from "@/models/group.ts";
 import { useEffect, useState } from "react";
-import { getCompetition } from "@/lib/functions.ts";
+import { endCompetition, getCompetition } from "@/lib/functions.ts";
 import { getUsername } from "@/lib/auth-functions.ts";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button.tsx";
 
 export default function CurrentCompetition() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const location = useLocation();
   const name = location.state.name;
+  const userName = getUsername();
   const [groups, setGroups] = useState<Group[]>();
   const [firstThreeGroups, setFirstThreeGroups] = useState<GroupWithPlace[]>();
   const { toast } = useToast();
+
+  const handleEndCompetition = () => {
+    if (userName && id) endCompetition(userName, id);
+    navigate("/teacher/competitions");
+  };
 
   useEffect(() => {
     const username = getUsername();
@@ -56,10 +64,21 @@ export default function CurrentCompetition() {
   return (
     <div className="min-h-screen w-screen flex flex-col items-center justify-start">
       <div className="flex flex-col md:flex-row justify-center md:justify-between items-center w-full md:pl-6 md:pr-10">
-        <Title showSmallTitle={true} showFrog={false} />
-        <p className="uppercase font-bold text-[#9775FF] font-alumni text-3xl">
-          {name}
-        </p>
+        <div className="w-[23rem]">
+          <Title showSmallTitle={true} showFrog={false} />
+        </div>
+        <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
+          <p className="uppercase font-bold text-[#9775FF] font-alumni text-3xl md:mr-4">
+            {name}
+          </p>
+          <Button
+            type="submit"
+            onClick={handleEndCompetition}
+            className="p-4 py-6 border-4 border-white rounded-xl text-white uppercase text-2xl font-alumni font-semibold shadow-lg"
+          >
+            Završi natjecanje
+          </Button>
+        </div>
       </div>
       <div className="w-full px-10 flex flex-col md:flex-row gap-5">
         <div className="flex items-end gap-2 md:gap-4 h-[47vh] mt-10 md:mt-0 md:h-[78vh] w-full md:w-2/3">

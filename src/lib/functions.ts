@@ -182,7 +182,7 @@ export const startCompetition = async (
 type endCompetitionType = Group[];
 export const endCompetition = async (
   username: string,
-  competitionId: number
+  competitionId: string
 ): Promise<endCompetitionType> => {
   try {
     const url = `${baseUrl}/competitions/${competitionId}/close?username=${username}`;
