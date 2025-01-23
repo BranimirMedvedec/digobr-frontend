@@ -1,5 +1,10 @@
 import { getGroupScore } from "@/lib/functions"
-import { getStudentColor, getStudentGroup } from "@/lib/store-functions"
+import { subscribeToEvent, unsubscribeFromEvent } from "@/lib/socket-functions"
+import {
+	competitionFinished,
+	getStudentColor,
+	getStudentGroup,
+} from "@/lib/store-functions"
 import { useEffect, useState } from "react"
 
 export default function CelebrateScore() {
@@ -14,6 +19,18 @@ export default function CelebrateScore() {
 			setScore(response)
 		})()
 	}, [groupCode])
+
+	const handleCompetitionFinished = () => {
+		competitionFinished()
+	}
+
+	useEffect(() => {
+		subscribeToEvent("competitionFinished", handleCompetitionFinished)
+
+		return () => {
+			unsubscribeFromEvent("competitionFinished")
+		}
+	}, [])
 
 	return (
 		<div className="absolute top-32 lg:top-52 w-full h-40 my-10">

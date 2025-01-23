@@ -42,6 +42,7 @@ export const removeCompetitionLevel = (): void => {
 
 export const competitionFinished = (): void => {
 	removeStudentGroup()
+	removeStudentColor()
 	removeCompetitionLevel()
 	removeCompetitionId()
 	removeCompetitionName()
