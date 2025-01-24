@@ -12,8 +12,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Explain() {
   // TODO: set right timers and extract them into separate file
-  const GET_READY_TIMER = 10; /* time for the explainer to learn new emotion */
-  const EXPLAIN_TIMER = 15; /* time for the explainer to imitate new emotion */
+  const GET_READY_TIMER = 5; /* time for the explainer to learn new emotion */
+  const EXPLAIN_TIMER = 8; /* time for the explainer to imitate new emotion */
 
   const navigate = useNavigate();
   const level = getCompetitionLevel() || 1;
