@@ -15,7 +15,7 @@ export default function LogoutButton() {
 		<Button
 			className="bg-fuchsia-400 text-black font-hammersmith font-medium text-lg rounded-xl border-2 border-white p-5 shadow-lg"
 			onClick={handleLogout()}>
-			Logout
+			Odjava
 		</Button>
 	)
 }
