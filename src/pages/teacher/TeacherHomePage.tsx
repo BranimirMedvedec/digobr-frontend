@@ -88,20 +88,18 @@ export default function TeacherHome() {
 								</div>
 							</Link>
 						) : (
-							<Link to="/teacher/competition">
-								<div className="relative bg-white rounded-2xl p-2">
-									<div className="absolute top-14 left-0">
-										<img
-											src="/star.png"
-											alt="Plus Icon"
-											className="w-14 h-14"
-										/>
-									</div>
-									<p className="font-hammersmith font-medium text-xl text-left">
-										pokreni natjecanje
-									</p>
+							<div className="relative bg-white rounded-2xl p-2">
+								<div className="absolute top-14 left-0">
+									<img
+										src="/star.png"
+										alt="Plus Icon"
+										className="w-14 h-14"
+									/>
 								</div>
-							</Link>
+								<p className="font-hammersmith font-medium text-xl text-left">
+									pokreni natjecanje
+								</p>
+							</div>
 						)}
 					</div>
 
