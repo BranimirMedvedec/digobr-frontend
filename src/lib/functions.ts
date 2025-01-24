@@ -231,7 +231,7 @@ export const registerReadiness = async (
 type requestEmotionType = Emotion & {
 	imitationImage: QuestionInfo
 } & {
-	guessingImages: QuestionInfo[] | null | undefined
+	guessingImages: QuestionInfo[] | null
 }
 export const requestEmotion = async (
 	username: string,
@@ -246,14 +246,7 @@ export const requestEmotion = async (
 		}
 
 		const data: requestEmotionType = await response.json()
-		const sortedImages = data.guessingImages?.sort(
-			() => Math.random() - 0.5
-		)
-		const returnData = {
-			...data,
-			guessingImages: sortedImages,
-		}
-		return returnData
+		return data
 	} catch (error) {
 		console.error("Request Emotion Error:", error)
 		throw error

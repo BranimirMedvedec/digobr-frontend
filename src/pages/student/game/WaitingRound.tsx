@@ -18,7 +18,7 @@ type WaitingRoundProps = {
 type CompetitionStartingData = Emotion & {
 	imitationImage: QuestionInfo
 } & {
-	guessingImages: QuestionInfo[] | null | undefined
+	guessingImages: QuestionInfo[] | null
 }
 
 export default function WaitingRound({
@@ -47,10 +47,7 @@ export default function WaitingRound({
 				groupCode
 			)
 			console.log("Requested emotion:", data)
-			setQuestionData({
-				...data,
-				guessingImages: data.guessingImages ?? null,
-			})
+			setQuestionData(data)
 
 			if (data.isImitating) {
 				setTimeout(() => {
