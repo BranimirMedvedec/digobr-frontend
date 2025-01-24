@@ -24,13 +24,11 @@ export default function MultipleAnswer() {
 	const navigate = useNavigate()
 	const data = getQuestionData()
 	const images = data?.guessingImages
-	const formattedImages = images
-		?.map((image) => {
-			return {
-				data: formatImage(image.data),
-			}
-		})
-		.sort(() => Math.random() - 0.5)
+	const formattedImages = images?.map((image) => {
+		return {
+			data: formatImage(image.data),
+		}
+	})
 	const level = getCompetitionLevel() || 1
 	const [showCounter, setShowCounter] = useState(true)
 	const selectedImgIndexRef = useRef<number | undefined>(undefined)
